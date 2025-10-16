@@ -1,0 +1,1200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Élégance Couture - Luxury Fashion Brand</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    :root {
+      --primary: #C2185B;
+      --secondary: #E91E63;
+      --accent: #AD1457;
+      --dark: #880E4F;
+      --light: #FCE4EC;
+      --text: #4A4A4A;
+      --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      --shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+      --soothing-bg: rgba(252, 228, 236, 0.95);
+    }
+
+    body {
+      color: var(--text);
+      overflow-x: hidden;
+      background: var(--light);
+    }
+
+    .navbar {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1rem 4%;
+      z-index: 1000;
+      background: transparent;
+      transition: var(--transition);
+    }
+
+    .navbar.scrolled {
+      position: fixed;
+      background: #FCE4EC;
+      backdrop-filter: blur(12px);
+      box-shadow: var(--shadow);
+      padding: 0.8rem 4%;
+    }
+
+    .navbar.scrolled .logo {
+      color: var(--dark);
+    }
+
+    .navbar.scrolled .logo-icon {
+      color: var(--primary);
+    }
+
+    .navbar.scrolled .nav-links a {
+      color: var(--dark);
+    }
+
+    @media (max-width: 992px) {
+      .navbar.scrolled .nav-links a {
+        color: #ffffff;
+      }
+    }
+
+    .navbar.scrolled .nav-links a:hover {
+      color: var(--primary);
+    }
+
+    .navbar.scrolled .nav-links a.active {
+      color: var(--primary);
+    }
+
+    .navbar.scrolled .btn-nav {
+      color: var(--dark);
+    }
+
+    .navbar.scrolled .btn-login {
+      border-color: rgba(0, 0, 0, 0.2);
+    }
+
+    .navbar.scrolled .btn-login:hover {
+      color: white;
+      background: var(--primary);
+      border-color: var(--primary);
+    }
+
+    .navbar.scrolled .menu-toggle span {
+      background: var(--dark);
+    }
+
+    .navbar.scrolled .menu-toggle span {
+      background: var(--dark);
+    }
+
+    @media (max-width: 992px) {
+      .navbar.scrolled .menu-toggle.active span {
+        background: #ffffff;
+      }
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: white;
+      text-decoration: none;
+    }
+
+    .logo-icon {
+      position: relative;
+      width: 40px;
+      height: 40px;
+      margin-right: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: var(--transition);
+    }
+
+    .logo-g {
+      font-size: 28px;
+      font-weight: 800;
+      background: linear-gradient(135deg, var(--primary), var(--accent));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      position: relative;
+      z-index: 2;
+    }
+
+    .logo-icon::before {
+      content: '';
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      border: 2px solid var(--primary);
+      border-radius: 50%;
+      opacity: 0.5;
+      transition: var(--transition);
+    }
+
+    .logo-icon::after {
+      content: '';
+      position: absolute;
+      width: 110%;
+      height: 110%;
+      border: 2px solid var(--accent);
+      border-radius: 50%;
+      opacity: 0.3;
+      transition: var(--transition);
+    }
+
+    .logo:hover .logo-icon {
+      transform: rotate(15deg) scale(1.1);
+    }
+
+    .logo:hover .logo-icon::before {
+      opacity: 0.8;
+      transform: scale(1.1);
+    }
+
+    .logo:hover .logo-icon::after {
+      opacity: 0.5;
+      transform: scale(1.2);
+    }
+
+    .logo-text {
+      background: linear-gradient(135deg, var(--primary), var(--accent));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .nav-links {
+      display: flex;
+      list-style: none;
+      gap: 1.8rem;
+    }
+
+    .nav-links li {
+      position: relative;
+    }
+
+    .nav-links a {
+      color: white;
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 1rem;
+      padding: 0.5rem 0;
+      transition: var(--transition);
+      position: relative;
+    }
+
+    .nav-links a:hover {
+      color: var(--primary);
+      transform: translateY(-2px);
+    }
+
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      width: 0;
+      height: 2px;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--primary);
+      border-radius: 2px;
+      transition: var(--transition);
+    }
+
+    .nav-links a:hover::after,
+    .nav-links a.active::after {
+      width: 60%;
+    }
+
+    .nav-links a.active {
+      color: var(--primary);
+    }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      text-decoration: none;
+    }
+
+    .btn-nav {
+      color: white;
+      text-decoration: none;
+      padding: 0.6rem 1.5rem;
+      border-radius: 25px;
+      font-weight: 500;
+      font-size: 0.95rem;
+      transition: var(--transition);
+      position: relative;
+      overflow: hidden;
+      z-index: 1;
+    }
+
+    .btn-nav::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 0;
+      height: 100%;
+      background: var(--primary);
+      transition: var(--transition);
+      z-index: -1;
+      border-radius: 25px;
+    }
+
+    .btn-nav:hover::before {
+      width: 100%;
+    }
+
+    .btn-login {
+      border: 1px solid rgba(255, 255, 255, 0.4);
+    }
+
+    .btn-login:hover {
+      border-color: var(--primary);
+    }
+
+    .signin-toggle {
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+      padding: 0.6rem 1.2rem;
+      border-radius: 25px;
+      font-weight: 500;
+      font-size: 0.95rem;
+      transition: var(--transition);
+      position: relative;
+      overflow: hidden;
+      z-index: 1;
+      border: 1px solid rgba(255, 255, 255, 0.4);
+      color: white;
+      background: transparent;
+    }
+
+    .signin-toggle::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 0;
+      height: 100%;
+      background: var(--primary);
+      transition: var(--transition);
+      z-index: -1;
+      border-radius: 25px;
+    }
+
+    .signin-toggle:hover::before {
+      width: 100%;
+    }
+
+    .signin-toggle:hover {
+      border-color: var(--primary);
+      color: white;
+    }
+
+    .signin-icon {
+      margin-right: 8px;
+      font-size: 1.2rem;
+    }
+
+    .navbar.scrolled .signin-toggle {
+      color: var(--dark);
+      border-color: rgba(0, 0, 0, 0.2);
+    }
+
+    .navbar.scrolled .signin-toggle:hover {
+      color: white;
+      border-color: var(--primary);
+    }
+
+    .menu-toggle {
+      display: none;
+      flex-direction: column;
+      justify-content: space-between;
+      width: 32px;
+      height: 31px;
+      cursor: pointer;
+      z-index: 1001;
+      position: relative;
+      padding: 8px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, rgba(194, 24, 91, 0.2), rgba(173, 20, 87, 0.2));
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .menu-toggle:hover {
+      background: linear-gradient(135deg, rgba(194, 24, 91, 0.4), rgba(173, 20, 87, 0.4));
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
+
+    .menu-toggle span {
+      height: 3px;
+      width: 100%;
+      background: linear-gradient(90deg, #C2185B, #AD1457);
+      border-radius: 5px;
+      transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+      transform-origin: center;
+    }
+
+    .menu-toggle.active span:nth-child(1) {
+      transform: rotate(45deg) translate(7px, 7px);
+    }
+
+    .menu-toggle.active span:nth-child(2) {
+      opacity: 0;
+      transform: scale(0);
+    }
+
+    .menu-toggle.active span:nth-child(3) {
+      transform: rotate(-45deg) translate(7px, -7px);
+    }
+
+    .menu-toggle::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 0;
+      height: 0;
+      background: rgba(194, 24, 91, 0.3);
+      border-radius: 50%;
+      transform: translate(-50%, -50%);
+      transition: width 0.6s ease, height 0.6s ease;
+      z-index: -1;
+    }
+
+    .menu-toggle:active::before {
+      width: 60px;
+      height: 60px;
+      opacity: 0;
+    }
+
+    /* زر تسجيل الدخول في القائمة المنزلقة للهاتف */
+    .mobile-signin-toggle {
+      display: none;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      padding: 1rem 2rem;
+      border-radius: 25px;
+      font-weight: 500;
+      font-size: 1.1rem;
+      transition: var(--transition);
+      position: relative;
+      overflow: hidden;
+      z-index: 1;
+      border: 1px solid rgba(255, 255, 255, 0.4);
+      color: white;
+      background: transparent;
+      margin: 2rem auto;
+      width: 80%;
+      max-width: 250px;
+    }
+
+    .mobile-signin-toggle::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 0;
+      height: 100%;
+      background: var(--primary);
+      transition: var(--transition);
+      z-index: -1;
+      border-radius: 25px;
+    }
+
+    .mobile-signin-toggle:hover::before {
+      width: 100%;
+    }
+
+    .mobile-signin-toggle:hover {
+      border-color: var(--primary);
+      color: white;
+    }
+
+    .mobile-signin-icon {
+      margin-right: 10px;
+      font-size: 1.4rem;
+    }
+
+    @media (max-width: 992px) {
+      .menu-toggle {
+        display: flex;
+      }
+      
+      .navbar.scrolled .menu-toggle span {
+        background: linear-gradient(90deg, #C2185B, #AD1457);
+      }
+
+      .navbar.scrolled .menu-toggle.active span {
+        background: #ffffff;
+      }
+
+      /* إظهار زر تسجيل الدخول في القائمة المنزلقة وإخفاء الزر الأصلي */
+      .nav-actions {
+        display: none;
+      }
+      
+      .mobile-signin-toggle {
+        display: flex;
+      }
+
+      .nav-links {
+        position: fixed;
+        top: 0;
+        right: -100%;
+        width: 70%;
+        height: 100vh;
+        background: rgba(136, 14, 79, 0.98);
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 2.5rem;
+        transition: var(--transition);
+        backdrop-filter: blur(10px);
+      }
+
+      .nav-links.active {
+        right: 0;
+      }
+
+      .nav-links a {
+        font-size: 1.2rem;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .nav-actions {
+        display: none;
+      }
+
+      .logo {
+        font-size: 1.4rem;
+      }
+
+      .logo-icon {
+        font-size: 1.6rem;
+      }
+    }
+
+    .signin-toggle {
+      text-decoration: none;
+    }
+
+    @keyframes shake {
+      0% { transform: translateX(0); }
+      25% { transform: translateX(-3px); }
+      50% { transform: translateX(3px); }
+      75% { transform: translateX(-3px); }
+      100% { transform: translateX(0); }
+    }
+
+    /* Hero Section */
+    .hero-section {
+      position: relative;
+      height: 100vh;
+      width: 100%;
+    }
+
+    .swiper {
+      width: 100%;
+      height: 100%;
+    }
+
+    .swiper-slide {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .slide-bg {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-size: cover;
+      background-position: center;
+      filter: brightness(0.8);
+      transition: transform 1.2s ease;
+    }
+
+    .swiper-slide-active .slide-bg {
+      transform: scale(1.1);
+    }
+
+    .slide-content {
+      position: relative;
+      z-index: 2;
+      color: white;
+      text-align: center;
+      max-width: 800px;
+      padding: 0 2rem;
+      opacity: 0;
+      transform: translateY(50px);
+      transition: opacity 1s ease, transform 1s ease;
+    }
+
+    .swiper-slide-active .slide-content {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .slide-content h1 {
+      font-size: 4rem;
+      margin-bottom: 1.5rem;
+      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+      font-weight: 800;
+      line-height: 1.2;
+    }
+
+    .slide-content p {
+      font-size: 1.3rem;
+      margin-bottom: 2.5rem;
+      line-height: 1.6;
+      font-weight: 300;
+    }
+
+    .btn-hero {
+      display: inline-block;
+      padding: 1.2rem 3rem;
+      background: var(--primary);
+      color: white;
+      text-decoration: none;
+      border-radius: 50px;
+      font-weight: 600;
+      transition: var(--transition);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      position: relative;
+      overflow: hidden;
+      z-index: 1;
+      box-shadow: 0 5px 15px rgba(194, 24, 91, 0.3);
+    }
+
+    .btn-hero::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 0;
+      height: 100%;
+      background: var(--secondary);
+      transition: var(--transition);
+      z-index: -1;
+      border-radius: 50px;
+    }
+
+    .btn-hero:hover::before {
+      width: 100%;
+    }
+
+    .btn-hero:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 25px rgba(194, 24, 91, 0.4);
+    }
+
+    .swiper-pagination {
+      bottom: 3rem !important;
+    }
+
+    .swiper-pagination-bullet {
+      width: 14px;
+      height: 14px;
+      background: white;
+      opacity: 0.5;
+      transition: var(--transition);
+      border-radius: 7px;
+    }
+
+    .swiper-pagination-bullet-active {
+      opacity: 1;
+      background: var(--primary);
+      transform: scale(1.3);
+      width: 30px;
+    }
+
+    .swiper-button-next, .swiper-button-prev {
+      color: white;
+      transition: var(--transition);
+      opacity: 0.7;
+      width: 60px;
+      height: 60px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 50%;
+      backdrop-filter: blur(5px);
+    }
+
+    .swiper-button-next:after, .swiper-button-prev:after {
+      font-size: 1.5rem;
+      font-weight: bold;
+    }
+
+    .swiper-button-next:hover, .swiper-button-prev:hover {
+      opacity: 1;
+      transform: scale(1.2);
+      background: rgba(255, 255, 255, 0.2);
+    }
+
+    /* New Collections Section */
+    .collections-section {
+      padding: 6rem 0;
+      background: var(--light);
+    }
+
+    .section-title {
+      text-align: center;
+      margin-bottom: 4rem;
+    }
+
+    .section-title h2 {
+      font-size: 2.5rem;
+      color: var(--dark);
+      margin-bottom: 1rem;
+      position: relative;
+      display: inline-block;
+    }
+
+    .section-title h2::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 80px;
+      height: 3px;
+      background: var(--primary);
+    }
+
+    .section-title p {
+      color: var(--text);
+      max-width: 600px;
+      margin: 0 auto;
+      font-size: 1.1rem;
+    }
+
+    .collection-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+      margin-top: 3rem;
+    }
+
+    .collection-card {
+      position: relative;
+      border-radius: 15px;
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      transition: var(--transition);
+      height: 400px;
+    }
+
+    .collection-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+    }
+
+    .collection-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.8s ease;
+    }
+
+    .collection-card:hover .collection-img {
+      transform: scale(1.1);
+    }
+
+    .collection-overlay {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      padding: 2rem;
+      background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
+      color: white;
+      transform: translateY(20px);
+      opacity: 0;
+      transition: var(--transition);
+    }
+
+    .collection-card:hover .collection-overlay {
+      transform: translateY(0);
+      opacity: 1;
+    }
+
+    .collection-overlay h3 {
+      font-size: 1.5rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .collection-overlay p {
+      font-size: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    .btn-collection {
+      display: inline-block;
+      padding: 0.8rem 1.5rem;
+      background: var(--primary);
+      color: white;
+      text-decoration: none;
+      border-radius: 25px;
+      font-weight: 500;
+      transition: var(--transition);
+    }
+
+    .btn-collection:hover {
+      background: var(--secondary);
+      transform: translateY(-3px);
+    }
+
+    /* Newsletter Section */
+    .newsletter-section {
+      padding: 5rem 0;
+      background: linear-gradient(135deg, var(--primary), var(--accent));
+      color: white;
+      text-align: center;
+    }
+
+    .newsletter-content {
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .newsletter-content h2 {
+      font-size: 2.2rem;
+      margin-bottom: 1rem;
+    }
+
+    .newsletter-content p {
+      font-size: 1.1rem;
+      margin-bottom: 2rem;
+      opacity: 0.9;
+    }
+
+    .newsletter-form {
+      display: flex;
+      max-width: 500px;
+      margin: 0 auto;
+    }
+
+    .newsletter-input {
+      flex: 1;
+      padding: 1rem 1.5rem;
+      border: none;
+      border-radius: 50px 0 0 50px;
+      font-size: 1rem;
+      outline: none;
+    }
+
+    .newsletter-btn {
+      padding: 1rem 2rem;
+      background: var(--dark);
+      color: white;
+      border: none;
+      border-radius: 0 50px 50px 0;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .newsletter-btn:hover {
+      background: #6A0D3A;
+    }
+
+    /* Footer */
+    .footer {
+      background: var(--dark);
+      color: white;
+      padding: 4rem 0 2rem;
+    }
+
+    .footer-content {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 3rem;
+      margin-bottom: 3rem;
+    }
+
+    .footer-column h3 {
+      font-size: 1.3rem;
+      margin-bottom: 1.5rem;
+      position: relative;
+      padding-bottom: 10px;
+    }
+
+    .footer-column h3::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 40px;
+      height: 2px;
+      background: var(--primary);
+    }
+
+    .footer-links {
+      list-style: none;
+    }
+
+    .footer-links li {
+      margin-bottom: 0.8rem;
+    }
+
+    .footer-links a {
+      color: rgba(255, 255, 255, 0.7);
+      text-decoration: none;
+      transition: var(--transition);
+    }
+
+    .footer-links a:hover {
+      color: white;
+      padding-left: 5px;
+    }
+
+    .social-links {
+      display: flex;
+      gap: 1rem;
+      margin-top: 1.5rem;
+    }
+
+    .social-links a {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 40px;
+      height: 40px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 50%;
+      color: white;
+      text-decoration: none;
+      transition: var(--transition);
+    }
+
+    .social-links a:hover {
+      background: var(--primary);
+      transform: translateY(-3px);
+    }
+
+    .footer-bottom {
+      text-align: center;
+      padding-top: 2rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      color: rgba(255, 255, 255, 0.7);
+    }
+  </style>
+</head>
+<body>
+  <!-- Navigation -->
+  <nav class="navbar">
+    <a href="#" class="logo">
+      <div class="logo-icon">
+        <span class="logo-g">É</span>
+      </div>
+      <span class="logo-text">Élégance</span>
+    </a>
+    
+    <ul class="nav-links">
+      <li><a href="#" class="active">Home</a></li>
+      <li><a href="#">Collections</a></li>
+      <li><a href="#">Shop</a></li>
+      <li><a href="#">Lookbook</a></li>
+      <li><a href="#">About</a></li>
+      <li><a href="#">Contact</a></li>
+      <a href="#" class="mobile-signin-toggle">
+        <i class="fas fa-user-circle mobile-signin-icon"></i>
+        Account
+      </a>
+    </ul>
+    
+    <div class="nav-actions">
+      <a href="#" class="btn-nav btn-login">
+        <i class="fas fa-user-circle signin-icon"></i>
+        Account
+      </a>
+    </div>
+    
+    <div class="menu-toggle">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="hero-section">
+    <div class="swiper heroSwiper">
+      <div class="swiper-wrapper">
+        <div class="swiper-slide">
+          <div class="slide-bg" style="background-image: url('https://images.unsplash.com/photo-1539109136881-3be0616acf4b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80');"></div>
+          <div class="slide-content">
+            <h1>Spring Collection 2023</h1>
+            <p>Discover our latest collection inspired by blooming gardens and fresh beginnings</p>
+            <a href="#" class="btn-hero">Shop Now</a>
+          </div>
+        </div>
+        <div class="swiper-slide">
+          <div class="slide-bg" style="background-image: url('https://images.unsplash.com/photo-1490481651871-ab68de25d43d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80');"></div>
+          <div class="slide-content">
+            <h1>Evening Elegance</h1>
+            <p>Make a statement with our exclusive evening wear collection</p>
+            <a href="#" class="btn-hero">Explore</a>
+          </div>
+        </div>
+        <div class="swiper-slide">
+          <div class="slide-bg" style="background-image: url('https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80');"></div>
+          <div class="slide-content">
+            <h1>Summer Essentials</h1>
+            <p>Light, breezy, and effortlessly chic pieces for the warm season</p>
+            <a href="#" class="btn-hero">Discover</a>
+          </div>
+        </div>
+        <div class="swiper-slide">
+          <div class="slide-bg" style="background-image: url('https://images.unsplash.com/photo-1581044777550-4cfa60707c03?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80');"></div>
+          <div class="slide-content">
+            <h1>Accessories</h1>
+            <p>Complete your look with our curated selection of accessories</p>
+            <a href="#" class="btn-hero">View Collection</a>
+          </div>
+        </div>
+      </div>
+      <div class="swiper-pagination"></div>
+      <div class="swiper-button-next"></div>
+      <div class="swiper-button-prev"></div>
+    </div>
+  </section>
+
+  <!-- Collections Section -->
+  <section class="collections-section">
+    <div class="container">
+      <div class="section-title">
+        <h2>Our Collections</h2>
+        <p>Discover our carefully curated collections designed for the modern woman</p>
+      </div>
+      <div class="collection-grid">
+        <div class="collection-card">
+          <img src="https://images.unsplash.com/photo-1595777457583-95e059d581b8?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Evening Wear" class="collection-img">
+          <div class="collection-overlay">
+            <h3>Evening Wear</h3>
+            <p>Elegant dresses for special occasions</p>
+            <a href="#" class="btn-collection">View Collection</a>
+          </div>
+        </div>
+        <div class="collection-card">
+          <img src="https://images.unsplash.com/photo-1509631179647-0177331693ae?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Casual Wear" class="collection-img">
+          <div class="collection-overlay">
+            <h3>Casual Wear</h3>
+            <p>Comfortable yet stylish everyday outfits</p>
+            <a href="#" class="btn-collection">View Collection</a>
+          </div>
+        </div>
+        <div class="collection-card">
+          <img src="https://images.unsplash.com/photo-1572804013309-59a88b7e92f1?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Accessories" class="collection-img">
+          <div class="collection-overlay">
+            <h3>Accessories</h3>
+            <p>Complete your look with our accessories</p>
+            <a href="#" class="btn-collection">View Collection</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Newsletter Section -->
+  <section class="newsletter-section">
+    <div class="container">
+      <div class="newsletter-content">
+        <h2>Join Our Newsletter</h2>
+        <p>Subscribe to receive updates on new collections, exclusive offers, and styling tips.</p>
+        <form class="newsletter-form">
+          <input type="email" class="newsletter-input" placeholder="Your email address" required>
+          <button type="submit" class="newsletter-btn">Subscribe</button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-column">
+          <h3>Élégance Couture</h3>
+          <p>Luxury fashion for the modern woman. Crafted with elegance, designed for life.</p>
+          <div class="social-links">
+            <a href="#"><i class="fab fa-facebook-f"></i></a>
+            <a href="#"><i class="fab fa-instagram"></i></a>
+            <a href="#"><i class="fab fa-pinterest"></i></a>
+            <a href="#"><i class="fab fa-tiktok"></i></a>
+          </div>
+        </div>
+        <div class="footer-column">
+          <h3>Shop</h3>
+          <ul class="footer-links">
+            <li><a href="#">New Arrivals</a></li>
+            <li><a href="#">Best Sellers</a></li>
+            <li><a href="#">Dresses</a></li>
+            <li><a href="#">Tops</a></li>
+            <li><a href="#">Bottoms</a></li>
+            <li><a href="#">Accessories</a></li>
+          </ul>
+        </div>
+        <div class="footer-column">
+          <h3>Information</h3>
+          <ul class="footer-links">
+            <li><a href="#">About Us</a></li>
+            <li><a href="#">Contact</a></li>
+            <li><a href="#">Shipping & Returns</a></li>
+            <li><a href="#">Size Guide</a></li>
+            <li><a href="#">Privacy Policy</a></li>
+            <li><a href="#">Terms & Conditions</a></li>
+          </ul>
+        </div>
+        <div class="footer-column">
+          <h3>Contact</h3>
+          <ul class="footer-links">
+            <li><i class="fas fa-map-marker-alt"></i> 123 Fashion Ave, New York</li>
+            <li><i class="fas fa-phone"></i> +1 (555) 123-4567</li>
+            <li><i class="fas fa-envelope"></i> info@elegance.com</li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2023 Élégance Couture. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
+  <script>
+    // Initialize Swiper
+    const swiper = new Swiper('.heroSwiper', {
+      loop: true,
+      speed: 1000,
+      autoplay: {
+        delay: 5000,
+        disableOnInteraction: false,
+      },
+      pagination: {
+        el: '.swiper-pagination',
+        clickable: true,
+      },
+      navigation: {
+        nextEl: '.swiper-button-next',
+        prevEl: '.swiper-button-prev',
+      },
+      effect: 'fade',
+      fadeEffect: {
+        crossFade: true
+      },
+    });
+
+    // Navbar scroll effect
+    window.addEventListener('scroll', function() {
+      const navbar = document.querySelector('.navbar');
+      if (window.scrollY > 50) {
+        navbar.classList.add('scrolled');
+      } else {
+        navbar.classList.remove('scrolled');
+      }
+    });
+
+    // Mobile menu toggle
+    const menuToggle = document.querySelector('.menu-toggle');
+    const navLinks = document.querySelector('.nav-links');
+    
+    menuToggle.addEventListener('click', function() {
+      menuToggle.classList.toggle('active');
+      navLinks.classList.toggle('active');
+    });
+
+    // Close mobile menu when clicking on a link
+    const navItems = document.querySelectorAll('.nav-links a');
+    navItems.forEach(item => {
+      item.addEventListener('click', () => {
+        menuToggle.classList.remove('active');
+        navLinks.classList.remove('active');
+      });
+    });
+
+    // Newsletter form submission
+    const newsletterForm = document.querySelector('.newsletter-form');
+    newsletterForm.addEventListener('submit', function(e) {
+      e.preventDefault();
+      const email = this.querySelector('input[type="email"]').value;
+      
+      Swal.fire({
+        title: 'Thank You!',
+        text: `You've been subscribed to our newsletter with ${email}`,
+        icon: 'success',
+        confirmButtonText: 'OK',
+        confirmButtonColor: '#C2185B'
+      });
+      
+      this.reset();
+    });
+
+    // Account button click
+    const accountBtn = document.querySelector('.btn-login');
+    const mobileAccountBtn = document.querySelector('.mobile-signin-toggle');
+    
+    if (accountBtn) {
+      accountBtn.addEventListener('click', function(e) {
+        e.preventDefault();
+        Swal.fire({
+          title: 'Account',
+          text: 'Login or create an account to access exclusive features',
+          icon: 'info',
+          showCancelButton: true,
+          confirmButtonText: 'Login',
+          cancelButtonText: 'Sign Up',
+          confirmButtonColor: '#C2185B',
+          cancelButtonColor: '#AD1457'
+        });
+      });
+    }
+    
+    if (mobileAccountBtn) {
+      mobileAccountBtn.addEventListener('click', function(e) {
+        e.preventDefault();
+        Swal.fire({
+          title: 'Account',
+          text: 'Login or create an account to access exclusive features',
+          icon: 'info',
+          showCancelButton: true,
+          confirmButtonText: 'Login',
+          cancelButtonText: 'Sign Up',
+          confirmButtonColor: '#C2185B',
+          cancelButtonColor: '#AD1457'
+        });
+      });
+    }
+  </script>
+</body>
+</html>

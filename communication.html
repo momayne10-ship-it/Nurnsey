@@ -1,0 +1,1560 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Plant Community - Green Haven</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    :root {
+      --primary: #2e7d32;
+      --secondary: #66bb6a;
+      --accent: #388e3c;
+      --dark: #1b5e20;
+      --light: #f1f8e9;
+      --text: #33691e;
+      --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      --shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+      --soothing-bg: rgba(232, 245, 233, 0.95);
+    }
+
+    body {
+      color: var(--text);
+      overflow-x: hidden;
+      background: var(--light);
+    }
+
+    /* Navigation */
+    .navbar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.8rem 4%;
+      z-index: 1000;
+      background: #E8F5E9;
+      backdrop-filter: blur(12px);
+      box-shadow: var(--shadow);
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: var(--dark);
+      text-decoration: none;
+    }
+
+    .logo-icon {
+      position: relative;
+      width: 40px;
+      height: 40px;
+      margin-right: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: var(--transition);
+    }
+
+    .logo-g {
+      font-size: 28px;
+      font-weight: 800;
+      background: linear-gradient(135deg, var(--primary), var(--accent));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      position: relative;
+      z-index: 2;
+    }
+
+    .nav-links {
+      display: flex;
+      list-style: none;
+      gap: 1.8rem;
+    }
+
+    .nav-links li {
+      position: relative;
+    }
+
+    .nav-links a {
+      color: var(--dark);
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 1rem;
+      padding: 0.5rem 0;
+      transition: var(--transition);
+      position: relative;
+    }
+
+    .nav-links a:hover {
+      color: var(--primary);
+      transform: translateY(-2px);
+    }
+
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      width: 0;
+      height: 2px;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--primary);
+      border-radius: 2px;
+      transition: var(--transition);
+    }
+
+    .nav-links a:hover::after,
+    .nav-links a.active::after {
+      width: 60%;
+    }
+
+    .nav-links a.active {
+      color: var(--primary);
+    }
+
+    .menu-toggle {
+      display: none;
+      flex-direction: column;
+      justify-content: space-between;
+      width: 32px;
+      height: 31px;
+      cursor: pointer;
+      z-index: 1001;
+      position: relative;
+      padding: 8px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, rgba(46, 125, 50, 0.2), rgba(56, 142, 60, 0.2));
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .menu-toggle span {
+      height: 3px;
+      width: 100%;
+      background: linear-gradient(90deg, #2e7d32, #388e3c);
+      border-radius: 5px;
+      transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+      transform-origin: center;
+    }
+
+    /* Community Hero Section */
+    .community-hero {
+      background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('https://images.unsplash.com/photo-1523348837708-15d4a09cfac2?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80');
+      background-size: cover;
+      background-position: center;
+      padding: 8rem 2rem 4rem;
+      text-align: center;
+      color: white;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .community-hero::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, rgba(46, 125, 50, 0.7), rgba(56, 142, 60, 0.7));
+      z-index: 0;
+    }
+
+    .community-hero-content {
+      position: relative;
+      z-index: 1;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .community-hero h1 {
+      font-size: 3.5rem;
+      margin-bottom: 1rem;
+      font-weight: 700;
+    }
+
+    .community-hero p {
+      font-size: 1.2rem;
+      margin-bottom: 2rem;
+      line-height: 1.6;
+    }
+
+    .hero-stats {
+      display: flex;
+      justify-content: center;
+      gap: 3rem;
+      margin-top: 2rem;
+      flex-wrap: wrap;
+    }
+
+    .stat-item {
+      text-align: center;
+    }
+
+    .stat-number {
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: white;
+      display: block;
+    }
+
+    .stat-label {
+      font-size: 1rem;
+      color: rgba(255, 255, 255, 0.9);
+    }
+
+    /* Community Content */
+    .community-content {
+      padding: 4rem 2rem;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .section-title {
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+
+    .section-title h2 {
+      font-size: 2.5rem;
+      color: var(--dark);
+      margin-bottom: 1rem;
+      font-weight: 700;
+      position: relative;
+    }
+
+    .section-title h2::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 80px;
+      height: 4px;
+      background: linear-gradient(90deg, var(--primary), var(--accent));
+      border-radius: 2px;
+    }
+
+    .section-title p {
+      color: #666;
+      max-width: 700px;
+      margin: 0 auto;
+      font-size: 1.1rem;
+    }
+
+    /* Community Grid */
+    .community-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+      margin-bottom: 3rem;
+    }
+
+    .community-card {
+      background: white;
+      border-radius: 15px;
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      transition: var(--transition);
+      position: relative;
+    }
+
+    .community-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+    }
+
+    .card-header {
+      padding: 1.5rem;
+      background: var(--light);
+      border-bottom: 2px solid var(--secondary);
+    }
+
+    .card-header h3 {
+      color: var(--dark);
+      font-size: 1.3rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .card-header p {
+      color: var(--text);
+      font-size: 0.9rem;
+    }
+
+    .card-body {
+      padding: 1.5rem;
+    }
+
+    .members-list {
+      margin-bottom: 1.5rem;
+    }
+
+    .member {
+      display: flex;
+      align-items: center;
+      margin-bottom: 1rem;
+    }
+
+    .member-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      overflow: hidden;
+      margin-right: 1rem;
+    }
+
+    .member-avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .member-info h4 {
+      font-size: 1rem;
+      color: var(--dark);
+      margin-bottom: 0.2rem;
+    }
+
+    .member-info p {
+      font-size: 0.8rem;
+      color: #666;
+    }
+
+    .card-footer {
+      padding: 1rem 1.5rem;
+      background: #f8fafc;
+      border-top: 1px solid #e5e7eb;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .discussion-count {
+      display: flex;
+      align-items: center;
+      color: #666;
+      font-size: 0.9rem;
+    }
+
+    .discussion-count i {
+      margin-right: 0.5rem;
+      color: var(--primary);
+    }
+
+    .btn-join {
+      padding: 0.5rem 1rem;
+      background: var(--primary);
+      color: white;
+      border: none;
+      border-radius: 20px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .btn-join:hover {
+      background: var(--dark);
+    }
+
+    /* Discussion Section */
+    .discussion-section {
+      background: white;
+      border-radius: 15px;
+      box-shadow: var(--shadow);
+      margin-bottom: 3rem;
+      overflow: hidden;
+    }
+
+    .discussion-header {
+      padding: 1.5rem;
+      background: var(--light);
+      border-bottom: 2px solid var(--secondary);
+    }
+
+    .discussion-header h3 {
+      color: var(--dark);
+      font-size: 1.5rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .discussion-filters {
+      display: flex;
+      gap: 1rem;
+      margin-top: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .filter-btn {
+      padding: 0.5rem 1rem;
+      background: white;
+      border: 1px solid #e5e7eb;
+      border-radius: 20px;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .filter-btn.active {
+      background: var(--primary);
+      color: white;
+      border-color: var(--primary);
+    }
+
+    .discussion-list {
+      padding: 1.5rem;
+    }
+
+    .discussion-item {
+      padding: 1.5rem;
+      border-bottom: 1px solid #e5e7eb;
+      transition: var(--transition);
+    }
+
+    .discussion-item:hover {
+      background: #f8fafc;
+    }
+
+    .discussion-item:last-child {
+      border-bottom: none;
+    }
+
+    .discussion-title {
+      font-size: 1.1rem;
+      color: var(--dark);
+      margin-bottom: 0.5rem;
+      font-weight: 600;
+    }
+
+    .discussion-meta {
+      display: flex;
+      align-items: center;
+      margin-bottom: 1rem;
+      font-size: 0.9rem;
+      color: #666;
+    }
+
+    .discussion-author {
+      display: flex;
+      align-items: center;
+      margin-right: 1rem;
+    }
+
+    .author-avatar {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      overflow: hidden;
+      margin-right: 0.5rem;
+    }
+
+    .author-avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .discussion-stats {
+      display: flex;
+      gap: 1rem;
+    }
+
+    .stat {
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+    }
+
+    .discussion-excerpt {
+      color: #666;
+      margin-bottom: 1rem;
+      line-height: 1.6;
+    }
+
+    .discussion-tags {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+
+    .tag {
+      padding: 0.3rem 0.8rem;
+      background: rgba(46, 125, 50, 0.1);
+      color: var(--primary);
+      border-radius: 15px;
+      font-size: 0.8rem;
+      font-weight: 500;
+    }
+
+    .new-discussion {
+      padding: 1.5rem;
+      background: #f8fafc;
+      border-top: 1px solid #e5e7eb;
+
+    }
+
+    .new-discussion h4 {
+      color: var(--dark);
+      margin-bottom: 1rem;
+    }
+
+    .discussion-form {
+      display: grid;
+      gap: 1rem;
+    }
+
+    .form-group {
+      margin-bottom: 1rem;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: 600;
+      color: var(--dark);
+    }
+
+    .form-control {
+      width: 100%;
+      padding: 0.8rem 1rem;
+      border: 2px solid #e5e7eb;
+      border-radius: 20px;
+      font-size: 1rem;
+      background: white;
+      transition: var(--transition);
+    }
+
+    .form-control:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(46, 125, 50, 0.2);
+    }
+
+    textarea.form-control {
+      min-height: 120px;
+      resize: vertical;
+    }
+
+    .btn-submit {
+      padding: 0.8rem 1.5rem;
+      background: var(--primary);
+      color: white;
+      border: none;
+      border-radius: 25px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+      justify-self: start;
+    }
+
+    .btn-submit:hover {
+      background: var(--dark);
+    }
+
+    /* Events Section */
+    .events-section {
+      margin-bottom: 3rem;
+    }
+
+    .events-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+    }
+
+    .event-card {
+      background: white;
+      border-radius: 15px;
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      transition: var(--transition);
+    }
+
+    .event-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+    }
+
+    .event-image {
+      height: 200px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .event-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: var(--transition);
+    }
+
+    .event-card:hover .event-image img {
+      transform: scale(1.05);
+    }
+
+    .event-date {
+      position: absolute;
+      top: 1rem;
+      left: 1rem;
+      background: var(--primary);
+      color: white;
+      padding: 0.5rem 1rem;
+      border-radius: 20px;
+      font-size: 0.9rem;
+      font-weight: 600;
+    }
+
+    .event-content {
+      padding: 1.5rem;
+    }
+
+    .event-title {
+      font-size: 1.2rem;
+      color: var(--dark);
+      margin-bottom: 0.5rem;
+      font-weight: 700;
+    }
+
+    .event-details {
+      margin-bottom: 1rem;
+    }
+
+    .event-detail {
+      display: flex;
+      align-items: center;
+      margin-bottom: 0.5rem;
+      font-size: 0.9rem;
+      color: #666;
+    }
+
+    .event-detail i {
+      color: var(--primary);
+      margin-right: 0.5rem;
+      width: 20px;
+    }
+
+    .event-description {
+      color: #666;
+      margin-bottom: 1.5rem;
+      line-height: 1.6;
+    }
+
+    .event-actions {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .btn-event {
+      padding: 0.5rem 1rem;
+      background: var(--primary);
+      color: white;
+      border: none;
+      border-radius: 20px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .btn-event:hover {
+      background: var(--dark);
+    }
+
+    .event-attendees {
+      display: flex;
+      align-items: center;
+    }
+
+    .attendee {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      overflow: hidden;
+      margin-left: -10px;
+      border: 2px solid white;
+      position: relative;
+    }
+
+    .attendee:first-child {
+      margin-left: 0;
+    }
+
+    .attendee img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .attendee-count {
+      margin-left: 0.5rem;
+      font-size: 0.9rem;
+      color: #666;
+    }
+
+    /* Expert Section */
+    .experts-section {
+      margin-bottom: 3rem;
+    }
+
+    .experts-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 2rem;
+    }
+
+    .expert-card {
+      background: white;
+      border-radius: 15px;
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      transition: var(--transition);
+      text-align: center;
+    }
+
+    .expert-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+    }
+
+    .expert-image {
+      height: 200px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .expert-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .expert-content {
+      padding: 1.5rem;
+    }
+
+    .expert-name {
+      font-size: 1.2rem;
+      color: var(--dark);
+      margin-bottom: 0.5rem;
+      font-weight: 700;
+    }
+
+    .expert-role {
+      color: var(--primary);
+      font-size: 0.9rem;
+      margin-bottom: 1rem;
+      font-weight: 600;
+    }
+
+    .expert-specialties {
+      margin-bottom: 1.5rem;
+    }
+
+    .specialty {
+      display: inline-block;
+      padding: 0.3rem 0.8rem;
+      background: rgba(46, 125, 50, 0.1);
+      color: var(--primary);
+      border-radius: 15px;
+      font-size: 0.8rem;
+      margin: 0.2rem;
+    }
+
+    .expert-actions {
+      display: flex;
+      justify-content: center;
+      gap: 0.5rem;
+    }
+
+    .btn-expert {
+      padding: 0.5rem 1rem;
+      background: var(--primary);
+      color: white;
+      border: none;
+      border-radius: 20px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+      font-size: 0.9rem;
+    }
+
+    .btn-expert:hover {
+      background: var(--dark);
+    }
+
+    .btn-outline {
+      background: transparent;
+      border: 2px solid var(--primary);
+      color: var(--primary);
+    }
+
+    .btn-outline:hover {
+      background: var(--primary);
+      color: white;
+    }
+
+    /* Footer */
+    .footer-section {
+      padding: 4rem 0 2rem;
+      background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+      color: #f8fafc;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 2rem;
+      position: relative;
+      z-index: 1;
+      margin-bottom: 2rem;
+    }
+
+    .footer-about h3,
+    .footer-links h3,
+    .footer-contact h3 {
+      font-size: 1.5rem;
+      font-weight: 600;
+      margin-bottom: 1.5rem;
+      color: #10b981;
+    }
+
+    .footer-about p {
+      font-size: 1rem;
+      line-height: 1.6;
+      color: #cbd5e1;
+      margin-bottom: 1.5rem;
+      max-width: 300px;
+    }
+
+    .footer-social {
+      display: flex;
+      gap: 1rem;
+    }
+
+    .social-link {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 40px;
+      height: 40px;
+      background: rgba(255, 255, 255, 0.1);
+      color: #f8fafc;
+      border-radius: 50%;
+      text-decoration: none;
+      transition: all 0.4s ease;
+      font-size: 1.2rem;
+    }
+
+    .footer-links ul,
+    .footer-contact ul {
+      list-style: none;
+    }
+
+    .footer-links li,
+    .footer-contact li {
+      margin-bottom: 0.75rem;
+    }
+
+    .footer-links a,
+    .footer-contact a {
+      color: #cbd5e1;
+      text-decoration: none;
+      font-size: 1rem;
+      transition: all 0.3s ease;
+    }
+
+    .footer-contact i {
+      margin-right: 0.5rem;
+      color: #10b981;
+    }
+
+    .footer-bottom {
+      text-align: center;
+      padding-top: 2rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .footer-bottom p {
+      font-size: 0.9rem;
+      color: #94a3b8;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 992px) {
+      .nav-links {
+        position: fixed;
+        top: 0;
+        right: -100%;
+        width: 70%;
+        height: 100vh;
+        background: rgba(27, 94, 32, 0.98);
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 2.5rem;
+        transition: var(--transition);
+        backdrop-filter: blur(10px);
+      }
+
+      .nav-links.active {
+        right: 0;
+      }
+
+      .nav-links a {
+        font-size: 1.2rem;
+        color: white;
+      }
+
+      .menu-toggle {
+        display: flex;
+      }
+
+      .community-hero h1 {
+        font-size: 2.5rem;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .community-hero {
+        padding: 6rem 1rem 3rem;
+      }
+
+      .community-content {
+        padding: 3rem 1rem;
+      }
+
+      .section-title h2 {
+        font-size: 2rem;
+      }
+
+      .hero-stats {
+        gap: 1.5rem;
+      }
+
+      .stat-number {
+        font-size: 2rem;
+      }
+    }
+
+    @media (max-width: 576px) {
+      .community-hero h1 {
+        font-size: 2rem;
+      }
+
+      .community-grid,
+      .events-grid,
+      .experts-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .discussion-filters {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .event-actions {
+        flex-direction: column;
+        gap: 1rem;
+        align-items: flex-start;
+      }
+
+      .expert-actions {
+        flex-direction: column;
+      }
+    }
+  .top-home-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #2e7d32, #388e3c);
+    color: white;
+    padding: 12px 24px;
+    border-radius: 30px;
+    text-decoration: none;
+    font-weight: 600;
+    box-shadow: 0 4px 15px rgba(46, 125, 50, 0.3);
+    transition: all 0.3s ease;
+    margin: 20px auto;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    width: fit-content;
+}
+
+.top-home-button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(46, 125, 50, 0.4);
+    background: linear-gradient(135deg, #388e3c, #2e7d32);
+}
+
+.top-home-button i {
+    margin-right: 8px;
+}
+  </style>
+</head>
+<body>
+
+
+  <!-- Community Hero Section -->
+  <section class="community-hero">
+   
+    <div class="community-hero-content">
+      <h1>Green Haven Community</h1>
+      <p>Connect with fellow plant enthusiasts, share your experiences, ask questions, and grow together in our vibrant community of plant lovers.</p>
+      <div class="hero-stats">
+        <div class="stat-item">
+          <span class="stat-number">5,327</span>
+          <span class="stat-label">Plant Lovers</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-number">1,243</span>
+          <span class="stat-label">Discussions</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-number">327</span>
+          <span class="stat-label">Experts</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Community Content -->
+  <section class="community-content">
+    <div class="container">
+      <!-- Plant Groups Section -->
+      <div class="section-title">
+        <h2>Plant Interest Groups</h2>
+        <p>Join groups based on your plant interests and connect with like-minded enthusiasts</p>
+      </div>
+
+      <div class="community-grid">
+        <div class="community-card">
+          <div class="card-header">
+            <h3>Indoor Plant Lovers</h3>
+            <p>For those who love growing plants inside their homes</p>
+          </div>
+          <div class="card-body">
+            <div class="members-list">
+              <div class="member">
+                <div class="member-avatar">
+                  <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?ixlib=rb-4.0.3&auto=format&fit=crop&w=688&q=80" alt="Member">
+                </div>
+                <div class="member-info">
+                  <h4>Sarah Johnson</h4>
+                  <p>Plant Expert</p>
+                </div>
+              </div>
+              <div class="member">
+                <div class="member-avatar">
+                  <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-4.0.3&auto=format&fit=crop&w=687&q=80" alt="Member">
+                </div>
+                <div class="member-info">
+                  <h4>Michael Chen</h4>
+                  <p>Urban Gardener</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="card-footer">
+            <div class="discussion-count">
+              <i class="fas fa-comments"></i>
+              <span>243 discussions</span>
+            </div>
+            <button class="btn-join">Join Group</button>
+          </div>
+        </div>
+
+        <div class="community-card">
+          <div class="card-header">
+            <h3>Vegetable Gardeners</h3>
+            <p>Grow your own food and share tips with fellow gardeners</p>
+          </div>
+          <div class="card-body">
+            <div class="members-list">
+              <div class="member">
+                <div class="member-avatar">
+                  <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=687&q=80" alt="Member">
+                </div>
+                <div class="member-info">
+                  <h4>Robert Kim</h4>
+                  <p>Organic Farmer</p>
+                </div>
+              </div>
+              <div class="member">
+                <div class="member-avatar">
+                  <img src="https://images.unsplash.com/photo-1552058544-f2b08422138a?ixlib=rb-4.0.3&auto=format&fit=crop&w=699&q=80" alt="Member">
+                </div>
+                <div class="member-info">
+                  <h4>Lisa Rodriguez</h4>
+                  <p>Permaculture Designer</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="card-footer">
+            <div class="discussion-count">
+              <i class="fas fa-comments"></i>
+              <span>187 discussions</span>
+            </div>
+            <button class="btn-join">Join Group</button>
+          </div>
+        </div>
+
+        <div class="community-card">
+          <div class="card-header">
+            <h3>Rare Plant Collectors</h3>
+            <p>For enthusiasts who love rare and exotic plant species</p>
+          </div>
+          <div class="card-body">
+            <div class="members-list">
+              <div class="member">
+                <div class="member-avatar">
+                  <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-4.0.3&auto=format&fit=crop&w=687&q=80" alt="Member">
+                </div>
+                <div class="member-info">
+                  <h4>James Wilson</h4>
+                  <p>Plant Collector</p>
+                </div>
+              </div>
+              <div class="member">
+                <div class="member-avatar">
+                  <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?ixlib=rb-4.0.3&auto=format&fit=crop&w=688&q=80" alt="Member">
+                </div>
+                <div class="member-info">
+                  <h4>Amanda Lee</h4>
+                  <p>Botanist</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="card-footer">
+            <div class="discussion-count">
+              <i class="fas fa-comments"></i>
+              <span>156 discussions</span>
+            </div>
+            <button class="btn-join">Join Group</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Discussion Section -->
+      <div class="section-title">
+        <h2>Community Discussions</h2>
+        <p>Join the conversation and share your plant knowledge</p>
+      </div>
+
+      <div class="discussion-section">
+        <div class="discussion-header">
+          <h3>Latest Discussions</h3>
+          <div class="discussion-filters">
+            <button class="filter-btn active">All</button>
+            <button class="filter-btn">Popular</button>
+            <button class="filter-btn">Unanswered</button>
+            <button class="filter-btn">Recent</button>
+          </div>
+        </div>
+        <div class="discussion-list">
+          <div class="discussion-item">
+            <h3 class="discussion-title">How to revive a dying fiddle leaf fig?</h3>
+            <div class="discussion-meta">
+              <div class="discussion-author">
+                <div class="author-avatar">
+                  <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-4.0.3&auto=format&fit=crop&w=1170&q=80" alt="Author">
+                </div>
+                <span>Thomas Green</span>
+              </div>
+              <div class="discussion-stats">
+                <div class="stat">
+                  <i class="fas fa-comments"></i>
+                  <span>24</span>
+                </div>
+                <div class="stat">
+                  <i class="fas fa-eye"></i>
+                  <span>143</span>
+                </div>
+                <div class="stat">
+                  <i class="fas fa-clock"></i>
+                  <span>2 hours ago</span>
+                </div>
+              </div>
+            </div>
+            <p class="discussion-excerpt">My fiddle leaf fig has been dropping leaves and looking sad for weeks. I've tried adjusting watering and light, but nothing seems to help. Any advice would be greatly appreciated!</p>
+            <div class="discussion-tags">
+              <span class="tag">Indoor Plants</span>
+              <span class="tag">Fiddle Leaf Fig</span>
+              <span class="tag">Plant Health</span>
+            </div>
+          </div>
+
+          <div class="discussion-item">
+            <h3 class="discussion-title">Best companion plants for tomatoes</h3>
+            <div class="discussion-meta">
+              <div class="discussion-author">
+                <div class="author-avatar">
+                  <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?ixlib=rb-4.0.3&auto=format&fit=crop&w=764&q=80" alt="Author">
+                </div>
+                <span>Maria Garcia</span>
+              </div>
+              <div class="discussion-stats">
+                <div class="stat">
+                  <i class="fas fa-comments"></i>
+                  <span>37</span>
+                </div>
+                <div class="stat">
+                  <i class="fas fa-eye"></i>
+                  <span>218</span>
+                </div>
+                <div class="stat">
+                  <i class="fas fa-clock"></i>
+                  <span>1 day ago</span>
+                </div>
+              </div>
+            </div>
+            <p class="discussion-excerpt">I'm planning my vegetable garden for this season and want to maximize my tomato yield. What plants work best as companions for tomatoes? I've heard marigolds and basil are good...</p>
+            <div class="discussion-tags">
+              <span class="tag">Vegetable Gardening</span>
+              <span class="tag">Companion Planting</span>
+              <span class="tag">Tomatoes</span>
+            </div>
+          </div>
+
+          <div class="discussion-item">
+            <h3 class="discussion-title">Show off your plant propagation station!</h3>
+            <div class="discussion-meta">
+              <div class="discussion-author">
+                <div class="author-avatar">
+                  <img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?ixlib=rb-4.0.3&auto=format&fit=crop&w=687&q=80" alt="Author">
+                </div>
+                <span>Sophie Williams</span>
+              </div>
+              <div class="discussion-stats">
+                <div class="stat">
+                  <i class="fas fa-comments"></i>
+                  <span>42</span>
+                </div>
+                <div class="stat">
+                  <i class="fas fa-eye"></i>
+                  <span>189</span>
+                </div>
+                <div class="stat">
+                  <i class="fas fa-clock"></i>
+                  <span>3 days ago</span>
+                </div>
+              </div>
+            </div>
+            <p class="discussion-excerpt">I'm looking for inspiration to set up my own propagation station. Please share pictures of your setup and any tips you have for successful propagation!</p>
+            <div class="discussion-tags">
+              <span class="tag">Propagation</span>
+              <span class="tag">DIY</span>
+              <span class="tag">Showcase</span>
+            </div>
+          </div>
+        </div>
+        <div class="new-discussion">
+          <h4>Start a new discussion</h4>
+          <form class="discussion-form">
+            <div class="form-group">
+              <label for="discussion-title">Title</label>
+              <input type="text" id="discussion-title" class="form-control" placeholder="What's your question or topic?">
+            </div>
+            <div class="form-group">
+              <label for="discussion-content">Content</label>
+              <textarea id="discussion-content" class="form-control" placeholder="Share your thoughts..."></textarea>
+            </div>
+            <div class="form-group">
+              <label for="discussion-tags">Tags</label>
+              <input type="text" id="discussion-tags" class="form-control" placeholder="Add tags (e.g., indoor-plants, propagation)">
+            </div>
+            <button type="submit" class="btn-submit">Post Discussion</button>
+          </form>
+        </div>
+      </div>
+
+      <!-- Events Section -->
+      <div class="section-title">
+        <h2>Upcoming Events</h2>
+        <p>Join our community events and meet fellow plant enthusiasts</p>
+      </div>
+
+      <div class="events-section">
+        <div class="events-grid">
+          <div class="event-card">
+            <div class="event-image">
+<img src="https://images.unsplash.com/photo-1501004318641-b39e6451bec6?ixlib=rb-4.0.3&auto=format&fit=crop&w=1074&q=80" alt="Aloe Vera Plant">
+              <div class="event-date">octobre 15, 2025</div>
+            </div>
+            <div class="event-content">
+              <h3 class="event-title">Community Plant Swap</h3>
+              <div class="event-details">
+                <div class="event-detail">
+                  <i class="fas fa-map-marker-alt"></i>
+                  <span>Central Park, New York</span>
+                </div>
+                <div class="event-detail">
+                  <i class="fas fa-clock"></i>
+                  <span>10:00 AM - 2:00 PM</span>
+                </div>
+                <div class="event-detail">
+                  <i class="fas fa-users"></i>
+                  <span>45 people attending</span>
+                </div>
+              </div>
+              <p class="event-description">Bring your cuttings, seedlings, and plants to swap with other community members. A great way to diversify your collection and meet fellow plant lovers!</p>
+              <div class="event-actions">
+                <button class="btn-event">Attend Event</button>
+                <div class="event-attendees">
+                  <div class="attendee">
+                    <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=687&q=80" alt="Attendee">
+                  </div>
+                  <div class="attendee">
+                    <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?ixlib=rb-4.0.3&auto=format&fit=crop&w=688&q=80" alt="Attendee">
+                  </div>
+                  <div class="attendee">
+                    <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?ixlib=rb-4.0.3&auto=format&fit=crop&w=688&q=80" alt="Attendee">
+                  </div>
+                  <span class="attendee-count">+42</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="event-card">
+            <div class="event-image">
+              <img src="https://images.unsplash.com/photo-1416879595882-3373a0480b5b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1170&q=80" alt="Workshop">
+              <div class="event-date">octobre 22, 2025</div>
+            </div>
+            <div class="event-content">
+              <h3 class="event-title">Terrarium Building Workshop</h3>
+              <div class="event-details">
+                <div class="event-detail">
+                  <i class="fas fa-map-marker-alt"></i>
+                  <span>Green Haven Studio, Brooklyn</span>
+                </div>
+                <div class="event-detail">
+                  <i class="fas fa-clock"></i>
+                  <span>1:00 PM - 4:00 PM</span>
+                </div>
+                <div class="event-detail">
+                  <i class="fas fa-users"></i>
+                  <span>20 people attending</span>
+                </div>
+              </div>
+              <p class="event-description">Learn how to create your own beautiful terrarium with our expert guide. All materials provided. Perfect for beginners and experienced plant lovers alike.</p>
+              <div class="event-actions">
+                <button class="btn-event">Attend Event</button>
+                <div class="event-attendees">
+                  <div class="attendee">
+                    <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-4.0.3&auto=format&fit=crop&w=687&q=80" alt="Attendee">
+                  </div>
+                  <div class="attendee">
+                    <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-4.0.3&auto=format&fit=crop&w=687&q=80" alt="Attendee">
+                  </div>
+                  <div class="attendee">
+                    <img src="https://images.unsplash.com/photo-1552058544-f2b08422138a?ixlib=rb-4.0.3&auto=format&fit=crop&w=699&q=80" alt="Attendee">
+                  </div>
+                  <span class="attendee-count">+17</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Experts Section -->
+      <div class="section-title">
+        <h2>Community Experts</h2>
+        <p>Connect with our plant experts and get personalized advice</p>
+      </div>
+
+      <div class="experts-section">
+        <div class="experts-grid">
+          <div class="expert-card">
+            <div class="expert-image">
+              <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?ixlib=rb-4.0.3&auto=format&fit=crop&w=687&q=80" alt="Expert">
+            </div>
+            <div class="expert-content">
+              <h3 class="expert-name">Dr. Emily Chen</h3>
+              <p class="expert-role">Botanist & Plant Pathologist</p>
+              <div class="expert-specialties">
+                <span class="specialty">Plant Diseases</span>
+                <span class="specialty">Soil Health</span>
+                <span class="specialty">Organic Solutions</span>
+              </div>
+              <div class="expert-actions">
+                <button class="btn-expert">Ask Question</button>
+                <button class="btn-expert btn-outline">View Profile</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="expert-card">
+            <div class="expert-image">
+              <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?ixlib=rb-4.0.3&auto=format&fit=crop&w=688&q=80" alt="Expert">
+            </div>
+            <div class="expert-content">
+              <h3 class="expert-name">Marcus Johnson</h3>
+              <p class="expert-role">Landscape Architect</p>
+              <div class="expert-specialties">
+                <span class="specialty">Garden Design</span>
+                <span class="specialty">Native Plants</span>
+                <span class="specialty">Sustainable Landscaping</span>
+              </div>
+              <div class="expert-actions">
+                <button class="btn-expert">Ask Question</button>
+                <button class="btn-expert btn-outline">View Profile</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="expert-card">
+            <div class="expert-image">
+              <img src="https://images.unsplash.com/photo-1551836022-d5d88e9218df?ixlib=rb-4.0.3&auto=format&fit=crop&w=1170&q=80" alt="Expert">
+            </div>
+            <div class="expert-content">
+              <h3 class="expert-name">Sophia Rodriguez</h3>
+              <p class="expert-role">Indoor Plant Specialist</p>
+              <div class="expert-specialties">
+                <span class="specialty">Houseplants</span>
+                <span class="specialty">Propagation</span>
+                <span class="specialty">Urban Gardening</span>
+              </div>
+              <div class="expert-actions">
+                <button class="btn-expert">Ask Question</button>
+                <button class="btn-expert btn-outline">View Profile</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+     <a href="Home.html" class="top-home-button">
+    <i class="fas fa-home"></i>Home page
+</a>
+  </section>
+
+
+
+  <script>
+    // Mobile Menu Toggle
+    const menuToggle = document.querySelector('.menu-toggle');
+    const navLinks = document.querySelector('.nav-links');
+
+    menuToggle.addEventListener('click', () => {
+      navLinks.classList.toggle('active');
+      menuToggle.classList.toggle('active');
+    });
+
+    // Join Group Buttons
+    const joinButtons = document.querySelectorAll('.btn-join');
+    joinButtons.forEach(button => {
+      button.addEventListener('click', () => {
+        const groupName = button.closest('.community-card').querySelector('h3').textContent;
+        Swal.fire({
+          title: 'Join Group?',
+          text: `Do you want to join the ${groupName}?`,
+          icon: 'question',
+          showCancelButton: true,
+          confirmButtonColor: '#2e7d32',
+          cancelButtonColor: '#d33',
+          confirmButtonText: 'Yes, join!'
+        }).then((result) => {
+          if (result.isConfirmed) {
+            Swal.fire(
+              'Joined!',
+              `You've joined the ${groupName}.`,
+              'success'
+            );
+            button.textContent = 'Joined';
+            button.style.background = '#66bb6a';
+          }
+        });
+      });
+    });
+
+    // Discussion Form Submission
+    const discussionForm = document.querySelector('.discussion-form');
+    discussionForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const title = document.getElementById('discussion-title').value;
+      Swal.fire({
+        title: 'Discussion Posted!',
+        text: `Your discussion "${title}" has been posted successfully.`,
+        icon: 'success',
+        confirmButtonColor: '#2e7d32'
+      });
+      discussionForm.reset();
+    });
+
+    // Event Attendance
+    const eventButtons = document.querySelectorAll('.btn-event');
+    eventButtons.forEach(button => {
+      button.addEventListener('click', () => {
+        const eventName = button.closest('.event-card').querySelector('.event-title').textContent;
+        Swal.fire({
+          title: 'Attend Event?',
+          text: `Do you want to attend the ${eventName}?`,
+          icon: 'question',
+          showCancelButton: true,
+          confirmButtonColor: '#2e7d32',
+          cancelButtonColor: '#d33',
+          confirmButtonText: 'Yes, I\'ll be there!'
+        }).then((result) => {
+          if (result.isConfirmed) {
+            Swal.fire(
+              'Confirmed!',
+              `You've registered for the ${eventName}.`,
+              'success'
+            );
+            button.textContent = 'Attending';
+            button.style.background = '#66bb6a';
+          }
+        });
+      });
+    });
+
+    // Ask Expert Button
+    const expertButtons = document.querySelectorAll('.btn-expert');
+    expertButtons.forEach(button => {
+      if (button.textContent === 'Ask Question') {
+        button.addEventListener('click', () => {
+          const expertName = button.closest('.expert-card').querySelector('.expert-name').textContent;
+          Swal.fire({
+            title: 'Ask a Question',
+            input: 'text',
+            inputLabel: `Your question for ${expertName}`,
+            inputPlaceholder: 'Type your question here...',
+            showCancelButton: true,
+            confirmButtonColor: '#2e7d32',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Send Question'
+          }).then((result) => {
+            if (result.isConfirmed) {
+              Swal.fire(
+                'Question Sent!',
+                `${expertName} will respond within 48 hours.`,
+                'success'
+              );
+            }
+          });
+        });
+      }
+    });
+  </script>
+</body>
+</html>

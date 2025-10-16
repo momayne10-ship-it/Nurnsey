@@ -1,0 +1,949 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Plant Scanner - Green Haven</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <link rel="icon" href="">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    :root {
+      --primary: #2e7d32;
+      --secondary: #66bb6a;
+      --accent: #388e3c;
+      --dark: #1b5e20;
+      --light: #f1f8e9;
+      --text: #33691e;
+      --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      --shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+      --soothing-bg: rgba(232, 245, 233, 0.95);
+      --ai-gradient: linear-gradient(135deg, #2e7d32, #4caf50, #66bb6a, #81c784);
+    }
+
+    body {
+      color: var(--text);
+      overflow-x: hidden;
+      background: var(--light);
+    }
+
+    /* AI Scanner Hero */
+    .ai-scanner-hero {
+      background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('https://images.unsplash.com/photo-1523348837708-15d4a09cfac2?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80');
+      background-size: cover;
+      background-position: center;
+      padding: 8rem 2rem 4rem;
+      text-align: center;
+      color: white;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .ai-scanner-hero::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, rgba(46, 125, 50, 0.8), rgba(56, 142, 60, 0.8));
+      z-index: 0;
+    }
+
+    .ai-scanner-content {
+      position: relative;
+      z-index: 1;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .ai-scanner-hero h1 {
+      font-size: 3.5rem;
+      margin-bottom: 1rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, #66bb6a, #a5d6a7, #e8f5e9);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .ai-scanner-hero p {
+      font-size: 1.2rem;
+      margin-bottom: 2rem;
+      line-height: 1.6;
+    }
+
+    .ai-features {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      margin-top: 2rem;
+      flex-wrap: wrap;
+    }
+
+    .ai-feature {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      padding: 1.5rem;
+      border-radius: 15px;
+      width: 180px;
+      transition: var(--transition);
+    }
+
+    .ai-feature:hover {
+      transform: translateY(-5px);
+      background: rgba(255, 255, 255, 0.2);
+    }
+
+    .ai-feature i {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+      color: #a5d6a7;
+    }
+
+    .ai-feature h3 {
+      font-size: 1rem;
+      margin-bottom: 0.5rem;
+    }
+
+    /* Scanner Section */
+    .scanner-section {
+      padding: 4rem 2rem;
+      background: linear-gradient(135deg, #f1f8e9 0%, #e8f5e9 100%);
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .section-title {
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+
+    .section-title h2 {
+      font-size: 2.5rem;
+      color: var(--dark);
+      margin-bottom: 1rem;
+      font-weight: 700;
+      position: relative;
+    }
+
+    .section-title h2::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 80px;
+      height: 4px;
+      background: linear-gradient(90deg, var(--primary), var(--accent));
+      border-radius: 2px;
+    }
+
+    .section-title p {
+      color: #666;
+      max-width: 700px;
+      margin: 0 auto;
+      font-size: 1.1rem;
+    }
+
+    .scanner-container {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+      align-items: center;
+    }
+
+    .scanner-interface {
+      background: white;
+      border-radius: 20px;
+      padding: 2rem;
+      box-shadow: var(--shadow);
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .scanner-interface::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 5px;
+      background: var(--ai-gradient);
+      animation: scanLine 3s infinite;
+    }
+
+    @keyframes scanLine {
+      0% { transform: translateY(0); }
+      50% { transform: translateY(calc(100% - 5px)); }
+      100% { transform: translateY(0); }
+    }
+
+    .scanner-placeholder {
+      width: 100%;
+      height: 300px;
+      background: #f8fafc;
+      border: 2px dashed #cbd5e1;
+      border-radius: 15px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 1.5rem;
+      cursor: pointer;
+      transition: var(--transition);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .scanner-placeholder:hover {
+      border-color: var(--primary);
+      background: #f1f8e9;
+    }
+
+    .scanner-placeholder i {
+      font-size: 4rem;
+      color: #cbd5e1;
+      margin-bottom: 1rem;
+      transition: var(--transition);
+    }
+
+    .scanner-placeholder:hover i {
+      color: var(--primary);
+    }
+
+    .scanner-placeholder p {
+      color: #64748b;
+      font-size: 1.1rem;
+    }
+
+    #image-preview {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 15px;
+      display: none;
+    }
+
+    .scanner-options {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+      justify-content: center;
+    }
+
+    .scanner-option {
+      padding: 0.8rem 1.5rem;
+      background: #f8fafc;
+      border: 2px solid #e5e7eb;
+      border-radius: 25px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .scanner-option:hover {
+      border-color: var(--primary);
+      color: var(--primary);
+    }
+
+    .scanner-option.active {
+      background: var(--primary);
+      color: white;
+      border-color: var(--primary);
+    }
+
+    .btn-scan {
+      padding: 1rem 2rem;
+      background: var(--ai-gradient);
+      color: white;
+      border: none;
+      border-radius: 25px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      position: relative;
+      overflow: hidden;
+      z-index: 1;
+    }
+
+    .btn-scan::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 0;
+      height: 100%;
+      background: linear-gradient(135deg, #1b5e20, #2e7d32, #388e3c);
+      transition: var(--transition);
+      z-index: -1;
+    }
+
+    .btn-scan:hover::before {
+      width: 100%;
+    }
+
+    .btn-scan:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 25px rgba(46, 125, 50, 0.3);
+    }
+
+    .scanner-results {
+      background: white;
+      border-radius: 20px;
+      padding: 2rem;
+      box-shadow: var(--shadow);
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .results-header {
+      text-align: center;
+      margin-bottom: 2rem;
+      padding-bottom: 1rem;
+      border-bottom: 2px solid #f1f5f9;
+    }
+
+    .results-header h3 {
+      color: var(--dark);
+      font-size: 1.5rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .results-content {
+      flex: 1;
+      overflow-y: auto;
+    }
+
+    .plant-identity {
+      margin-bottom: 2rem;
+    }
+
+    .plant-name {
+      font-size: 1.8rem;
+      color: var(--dark);
+      margin-bottom: 0.5rem;
+      font-weight: 700;
+    }
+
+    .plant-scientific {
+      color: #64748b;
+      font-style: italic;
+      margin-bottom: 1rem;
+    }
+
+    .plant-image {
+      width: 100%;
+      height: 200px;
+      border-radius: 15px;
+      overflow: hidden;
+      margin-bottom: 1rem;
+    }
+
+    .plant-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .plant-details {
+      margin-bottom: 2rem;
+    }
+
+    .detail-item {
+      display: flex;
+      justify-content: space-between;
+      padding: 0.8rem 0;
+      border-bottom: 1px solid #f1f5f9;
+    }
+
+    .detail-item:last-child {
+      border-bottom: none;
+    }
+
+    .detail-label {
+      color: #64748b;
+      font-weight: 600;
+    }
+
+    .detail-value {
+      color: var(--dark);
+      font-weight: 500;
+    }
+
+    .health-analysis {
+      margin-bottom: 2rem;
+    }
+
+    .health-score {
+      display: flex;
+      align-items: center;
+      margin-bottom: 1rem;
+    }
+
+    .score-circle {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background: conic-gradient(var(--primary) 0%, #e5e7eb 0%);
+      position: relative;
+      margin-right: 1rem;
+    }
+
+    .score-value {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--dark);
+    }
+
+    .score-label h4 {
+      color: var(--dark);
+      margin-bottom: 0.5rem;
+    }
+
+    .health-details {
+      margin-top: 1.5rem;
+    }
+
+    .health-item {
+      margin-bottom: 1rem;
+    }
+
+    .health-item-label {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 0.5rem;
+    }
+
+    .health-item-label span {
+      font-size: 0.9rem;
+      font-weight: 600;
+    }
+
+    .health-progress {
+      height: 8px;
+      background: #e5e7eb;
+      border-radius: 4px;
+      overflow: hidden;
+    }
+
+    .health-progress-bar {
+      height: 100%;
+      background: var(--primary);
+      border-radius: 4px;
+      transition: width 1s ease;
+    }
+
+    .care-recommendations {
+      background: #f8fafc;
+      padding: 1.5rem;
+      border-radius: 15px;
+      margin-top: 2rem;
+    }
+
+    .care-recommendations h4 {
+      color: var(--dark);
+      margin-bottom: 1rem;
+    }
+
+    .recommendation-list {
+      list-style: none;
+    }
+
+    .recommendation-list li {
+      padding: 0.5rem 0;
+      display: flex;
+      align-items: flex-start;
+    }
+
+    .recommendation-list li i {
+      color: var(--primary);
+      margin-right: 0.5rem;
+      margin-top: 0.2rem;
+    }
+
+    /* AI Explanation */
+    .ai-explanation {
+      padding: 4rem 2rem;
+      background: white;
+    }
+
+    .explanation-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+    }
+
+    .explanation-card {
+      background: #f8fafc;
+      padding: 2rem;
+      border-radius: 15px;
+      text-align: center;
+      transition: var(--transition);
+    }
+
+    .explanation-card:hover {
+      transform: translateY(-5px);
+      box-shadow: var(--shadow);
+    }
+
+    .explanation-card i {
+      font-size: 3rem;
+      color: var(--primary);
+      margin-bottom: 1rem;
+    }
+
+    .explanation-card h3 {
+      color: var(--dark);
+      margin-bottom: 1rem;
+    }
+
+    .explanation-card p {
+      color: #64748b;
+    }
+
+    /* Loading Animation */
+    .scanning-animation {
+      display: none;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(255, 255, 255, 0.9);
+      border-radius: 15px;
+      z-index: 10;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .scanner-loader {
+      width: 80px;
+      height: 80px;
+      border: 5px solid #f1f8e9;
+      border-top: 5px solid var(--primary);
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      margin-bottom: 1rem;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    /* Responsive Design */
+    @media (max-width: 992px) {
+      .ai-scanner-hero h1 {
+        font-size: 2.5rem;
+      }
+
+      .scanner-container {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .ai-scanner-hero {
+        padding: 6rem 1rem 3rem;
+      }
+
+      .scanner-section,
+      .ai-explanation {
+        padding: 3rem 1rem;
+      }
+
+      .section-title h2 {
+        font-size: 2rem;
+      }
+
+      .ai-features {
+        gap: 1rem;
+      }
+
+      .ai-feature {
+        width: 150px;
+        padding: 1rem;
+      }
+    }
+
+    @media (max-width: 576px) {
+      .ai-scanner-hero h1 {
+        font-size: 2rem;
+      }
+
+      .scanner-options {
+        flex-direction: column;
+      }
+
+      .health-score {
+        flex-direction: column;
+        text-align: center;
+      }
+
+      .score-circle {
+        margin-right: 0;
+        margin-bottom: 1rem;
+      }
+    }
+    .top-home-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #2e7d32, #388e3c);
+    color: white;
+    padding: 12px 24px;
+    border-radius: 30px;
+    text-decoration: none;
+    font-weight: 600;
+    box-shadow: 0 4px 15px rgba(46, 125, 50, 0.3);
+    transition: all 0.3s ease;
+    margin: 20px auto;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    width: fit-content;
+}
+
+.top-home-button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(46, 125, 50, 0.4);
+    background: linear-gradient(135deg, #388e3c, #2e7d32);
+}
+
+.top-home-button i {
+    margin-right: 8px;
+}
+    
+  </style>
+</head>
+<body>
+  <!-- AI Scanner Hero -->
+  <section class="ai-scanner-hero">
+    <div class="ai-scanner-content">
+      <h1>AI Plant Scanner</h1>
+      <p>Identify plants, diagnose diseases, and get expert care recommendations with our advanced artificial intelligence technology.</p>
+      
+      <div class="ai-features">
+        <div class="ai-feature">
+          <i class="fas fa-camera"></i>
+          <h3>Instant Scan</h3>
+          <p>Quick identification</p>
+        </div>
+        <div class="ai-feature">
+          <i class="fas fa-heartbeat"></i>
+          <h3>Health Analysis</h3>
+          <p>Detailed diagnostics</p>
+        </div>
+        <div class="ai-feature">
+          <i class="fas fa-lightbulb"></i>
+          <h3>Smart Tips</h3>
+          <p>Personalized care</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Scanner Section -->
+  <section class="scanner-section">
+    <div class="container">
+      <div class="section-title">
+        <h2>Scan Your Plant</h2>
+        <p>Upload a photo or use your camera to identify your plant and get detailed health analysis</p>
+      </div>
+
+      <div class="scanner-container">
+        <div class="scanner-interface">
+          <div class="scanner-placeholder" id="scanner-placeholder">
+            <i class="fas fa-camera"></i>
+            <p>Click to upload or take a photo</p>
+            <img id="image-preview" alt="Plant preview">
+          </div>
+          
+          <div class="scanning-animation" id="scanning-animation">
+            <div class="scanner-loader"></div>
+            <p>Analyzing your plant...</p>
+          </div>
+
+          <div class="scanner-options">
+            <div class="scanner-option active" id="option-upload">
+              <i class="fas fa-upload"></i>
+              Upload Photo
+            </div>
+            <div class="scanner-option" id="option-camera">
+              <i class="fas fa-camera"></i>
+              Use Camera
+            </div>
+          </div>
+
+          <input type="file" id="file-input" accept="image/*" style="display: none;">
+          <button class="btn-scan" id="btn-scan">
+            <i class="fas fa-search"></i>
+            Scan Plant
+          </button>
+        </div>
+
+        <div class="scanner-results">
+          <div class="results-header">
+            <h3>Scan Results</h3>
+            <p>Your plant analysis will appear here</p>
+          </div>
+
+          <div class="results-content" id="results-content">
+            <div class="no-results" id="no-results">
+              <div style="text-align: center; padding: 2rem;">
+                <i class="fas fa-seedling" style="font-size: 3rem; color: #cbd5e1; margin-bottom: 1rem;"></i>
+                <p>Scan a plant to see detailed results</p>
+              </div>
+            </div>
+
+            <div class="plant-results" id="plant-results" style="display: none;">
+              <div class="plant-identity">
+                <h3 class="plant-name" id="plant-name">Monstera Deliciosa</h3>
+                <p class="plant-scientific" id="plant-scientific">Monstera deliciosa</p>
+                
+                <div class="plant-image">
+                  <img id="result-plant-image" src="https://images.unsplash.com/photo-1520412099551-62b6bafeb5bb?ixlib=rb-4.0.3&auto=format&fit=crop&w=687&q=80" alt="Monstera Deliciosa">
+                </div>
+              </div>
+
+              <div class="plant-details">
+                <div class="detail-item">
+                  <span class="detail-label">Common Names:</span>
+                  <span class="detail-value" id="common-names">Swiss Cheese Plant, Split-leaf Philodendron</span>
+                </div>
+                <div class="detail-item">
+                  <span class="detail-label">Family:</span>
+                  <span class="detail-value" id="plant-family">Araceae</span>
+                </div>
+                <div class="detail-item">
+                  <span class="detail-label">Origin:</span>
+                  <span class="detail-value" id="plant-origin">Central America</span>
+                </div>
+                <div class="detail-item">
+                  <span class="detail-label">Plant Type:</span>
+                  <span class="detail-value" id="plant-type">Evergreen perennial</span>
+                </div>
+              </div>
+
+              <div class="health-analysis">
+                <div class="health-score">
+                  <div class="score-circle" id="health-circle">
+                    <div class="score-value">92%</div>
+                  </div>
+                  <div class="score-label">
+                    <h4>Health Score</h4>
+                    <p>Your plant is in excellent condition</p>
+                  </div>
+                </div>
+
+                <div class="health-details">
+                  <div class="health-item">
+                    <div class="health-item-label">
+                      <span>Nutrient Levels</span>
+                      <span>85%</span>
+                    </div>
+                    <div class="health-progress">
+                      <div class="health-progress-bar" style="width: 85%;"></div>
+                    </div>
+                  </div>
+                  <div class="health-item">
+                    <div class="health-item-label">
+                      <span>Hydration</span>
+                      <span>78%</span>
+                    </div>
+                    <div class="health-progress">
+                      <div class="health-progress-bar" style="width: 78%;"></div>
+                    </div>
+                  </div>
+                  <div class="health-item">
+                    <div class="health-item-label">
+                      <span>Sunlight Exposure</span>
+                      <span>90%</span>
+                    </div>
+                    <div class="health-progress">
+                      <div class="health-progress-bar" style="width: 90%;"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="care-recommendations">
+                <h4>Care Recommendations</h4>
+                <ul class="recommendation-list">
+                  <li><i class="fas fa-check-circle"></i> Water when the top inch of soil is dry</li>
+                  <li><i class="fas fa-check-circle"></i> Provide bright, indirect sunlight</li>
+                  <li><i class="fas fa-check-circle"></i> Mist leaves regularly for humidity</li>
+                  <li><i class="fas fa-check-circle"></i> Fertilize monthly during growing season</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- AI Explanation Section -->
+  <section class="ai-explanation">
+    <div class="container">
+      <div class="section-title">
+        <h2>How Our AI Technology Works</h2>
+        <p>Our advanced algorithms analyze your plants to provide accurate identification and health assessment</p>
+      </div>
+
+      <div class="explanation-grid">
+        <div class="explanation-card">
+          <i class="fas fa-brain"></i>
+          <h3>Deep Learning</h3>
+          <p>Our AI uses deep neural networks trained on millions of plant images to accurately identify species and conditions.</p>
+        </div>
+        <div class="explanation-card">
+          <i class="fas fa-leaf"></i>
+          <h3>Plant Database</h3>
+          <p>Access to a comprehensive database of over 50,000 plant species with detailed care information.</p>
+        </div>
+        <div class="explanation-card">
+          <i class="fas fa-stethoscope"></i>
+          <h3>Disease Detection</h3>
+          <p>Advanced computer vision algorithms detect signs of disease, nutrient deficiencies, and pests.</p>
+        </div>
+      </div>
+    </div>
+      <a href="Home.html" class="top-home-button">
+    <i class="fas fa-home"></i>Home page
+</a>
+  </section>
+
+  <script>
+    // Scanner Functionality
+    const scannerPlaceholder = document.getElementById('scanner-placeholder');
+    const fileInput = document.getElementById('file-input');
+    const imagePreview = document.getElementById('image-preview');
+    const btnScan = document.getElementById('btn-scan');
+    const scanningAnimation = document.getElementById('scanning-animation');
+    const noResults = document.getElementById('no-results');
+    const plantResults = document.getElementById('plant-results');
+    const optionUpload = document.getElementById('option-upload');
+    const optionCamera = document.getElementById('option-camera');
+
+    // Upload option click
+    optionUpload.addEventListener('click', () => {
+      optionUpload.classList.add('active');
+      optionCamera.classList.remove('active');
+    });
+
+    // Camera option click
+    optionCamera.addEventListener('click', () => {
+      optionCamera.classList.add('active');
+      optionUpload.classList.remove('active');
+      Swal.fire({
+        title: 'Camera Access',
+        text: 'Camera functionality would be implemented in a production environment',
+        icon: 'info',
+        confirmButtonColor: '#2e7d32'
+      });
+    });
+
+    // Open file dialog when clicking on placeholder
+    scannerPlaceholder.addEventListener('click', () => {
+      fileInput.click();
+    });
+
+    // Handle file selection
+    fileInput.addEventListener('change', (e) => {
+      const file = e.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = (event) => {
+          imagePreview.src = event.target.result;
+          imagePreview.style.display = 'block';
+          scannerPlaceholder.querySelector('i').style.display = 'none';
+          scannerPlaceholder.querySelector('p').style.display = 'none';
+        };
+        reader.readAsDataURL(file);
+      }
+    });
+
+    // Scan button click
+    btnScan.addEventListener('click', () => {
+      if (imagePreview.style.display === 'block') {
+        // Show scanning animation
+        scanningAnimation.style.display = 'flex';
+        
+        // Simulate AI scanning process
+        setTimeout(() => {
+          scanningAnimation.style.display = 'none';
+          noResults.style.display = 'none';
+          plantResults.style.display = 'block';
+          
+          // Animate health score
+          const healthCircle = document.getElementById('health-circle');
+          healthCircle.style.background = 'conic-gradient(var(--primary) 92%, #e5e7eb 0%)';
+          
+          // Show success message
+          Swal.fire({
+            title: 'Scan Complete!',
+            text: 'Your plant has been successfully identified and analyzed',
+            icon: 'success',
+            confirmButtonColor: '#2e7d32'
+          });
+        }, 3000);
+      } else {
+        Swal.fire({
+          title: 'No Image',
+          text: 'Please upload a plant image first',
+          icon: 'warning',
+          confirmButtonColor: '#2e7d32'
+        });
+      }
+    });
+
+    // Sample data for different plants (in a real app, this would come from an API)
+    const plantDatabase = [
+      {
+        name: "Monstera Deliciosa",
+        scientific: "Monstera deliciosa",
+        commonNames: "Swiss Cheese Plant, Split-leaf Philodendron",
+        family: "Araceae",
+        origin: "Central America",
+        type: "Evergreen perennial",
+        healthScore: 92,
+        nutrients: 85,
+        hydration: 78,
+        sunlight: 90,
+        image: "https://images.unsplash.com/photo-1520412099551-62b6bafeb5bb?ixlib=rb-4.0.3&auto=format&fit=crop&w=687&q=80",
+        recommendations: [
+          "Water when the top inch of soil is dry",
+          "Provide bright, indirect sunlight",
+          "Mist leaves regularly for humidity",
+          "Fertilize monthly during growing season"
+        ]
+      },
+      // More plants would be in the database
+    ];
+  </script>
+</body>
+</html>

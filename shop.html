@@ -1,0 +1,1453 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shop - Green Haven</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Add Swiper CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    :root {
+      --primary: #2e7d32;
+      --secondary: #66bb6a;
+      --accent: #388e3c;
+      --dark: #1b5e20;
+      --light: #f1f8e9;
+      --text: #33691e;
+      --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      --shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+      --soothing-bg: rgba(232, 245, 233, 0.95);
+    }
+
+    body {
+      color: var(--text);
+      overflow-x: hidden;
+      background: var(--light);
+    }
+
+    /* Navigation (same as home page) */
+    .navbar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.8rem 4%;
+      z-index: 1000;
+      background: #E8F5E9;
+      backdrop-filter: blur(12px);
+      box-shadow: var(--shadow);
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: var(--dark);
+      text-decoration: none;
+    }
+
+    .logo-icon {
+      position: relative;
+      width: 40px;
+      height: 40px;
+      margin-right: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: var(--transition);
+    }
+
+    .logo-g {
+      font-size: 28px;
+      font-weight: 800;
+      background: linear-gradient(135deg, var(--primary), var(--accent));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      position: relative;
+      z-index: 2;
+    }
+
+    .nav-links {
+      display: flex;
+      list-style: none;
+      gap: 1.8rem;
+    }
+
+    .nav-links li {
+      position: relative;
+    }
+
+    .nav-links a {
+      color: var(--dark);
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 1rem;
+      padding: 0.5rem 0;
+      transition: var(--transition);
+      position: relative;
+    }
+
+    .nav-links a:hover {
+      color: var(--primary);
+      transform: translateY(-2px);
+    }
+
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      width: 0;
+      height: 2px;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--primary);
+      border-radius: 2px;
+      transition: var(--transition);
+    }
+
+    .nav-links a:hover::after,
+    .nav-links a.active::after {
+      width: 60%;
+    }
+
+    .nav-links a.active {
+      color: var(--primary);
+    }
+
+    .menu-toggle {
+      display: none;
+      flex-direction: column;
+      justify-content: space-between;
+      width: 32px;
+      height: 31px;
+      cursor: pointer;
+      z-index: 1001;
+      position: relative;
+      padding: 8px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, rgba(46, 125, 50, 0.2), rgba(56, 142, 60, 0.2));
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .menu-toggle span {
+      height: 3px;
+      width: 100%;
+      background: linear-gradient(90deg, #2e7d32, #388e3c);
+      border-radius: 5px;
+      transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+      transform-origin: center;
+    }
+
+    /* Shop Hero Section */
+    .shop-hero {
+      background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('https://images.unsplash.com/photo-1483794344563-d27a8d18014e?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80');
+      background-size: cover;
+      background-position: center;
+      padding: 8rem 2rem 4rem;
+      text-align: center;
+      color: white;
+    }
+
+    .shop-hero h1 {
+      font-size: 3.5rem;
+      margin-bottom: 1rem;
+      font-weight: 700;
+    }
+
+    .shop-hero p {
+      font-size: 1.2rem;
+      max-width: 700px;
+      margin: 0 auto 2rem;
+    }
+
+    /* Shop Content */
+    .shop-content {
+      padding: 4rem 2rem;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .section-title {
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+
+    .section-title h2 {
+      font-size: 2.5rem;
+      color: var(--dark);
+      margin-bottom: 1rem;
+      font-weight: 700;
+      position: relative;
+    }
+
+    .section-title h2::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 80px;
+      height: 4px;
+      background: linear-gradient(90deg, var(--primary), var(--accent));
+      border-radius: 2px;
+    }
+
+    .section-title p {
+      color: #666;
+      max-width: 700px;
+      margin: 0 auto;
+      font-size: 1.1rem;
+    }
+
+    /* Filter Section */
+    .filter-section {
+      background: white;
+      padding: 1.5rem;
+      border-radius: 15px;
+      box-shadow: var(--shadow);
+      margin-bottom: 3rem;
+    }
+
+    .filter-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .filter-group {
+      margin-bottom: 1rem;
+    }
+
+    .filter-group label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: 600;
+      color: var(--dark);
+    }
+
+    .filter-select {
+      width: 100%;
+      padding: 0.8rem 1rem;
+      border: 2px solid #e5e7eb;
+      border-radius: 25px;
+      font-size: 1rem;
+      background: #f8fafc;
+      transition: var(--transition);
+    }
+
+    .filter-select:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(46, 125, 50, 0.2);
+    }
+
+    .price-range {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .price-range input {
+      flex: 1;
+      padding: 0.8rem;
+      border: 2px solid #e5e7eb;
+      border-radius: 30px;
+      font-size: 1rem;
+    }
+
+    .filter-buttons {
+      display: flex;
+      gap: 1rem;
+      justify-content: flex-end;
+      margin-top: 1rem;
+      
+    }
+
+    .btn-filter {
+      padding: 0.8rem 1.5rem;
+      border: none;
+      border-radius: 25px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .btn-apply {
+      background: var(--primary);
+      color: white;
+    }
+
+    .btn-reset {
+      background: #f8fafc;
+      color: var(--text);
+      border: 2px solid #e5e7eb;
+    }
+
+    .btn-filter:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Products Grid */
+    .products-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 2rem;
+      margin-bottom: 3rem;
+    }
+
+    .product-card {
+      background: white;
+      border-radius: 15px;
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      transition: var(--transition);
+      position: relative;
+    }
+
+    .product-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+    }
+
+    .product-badge {
+      position: absolute;
+      top: 1rem;
+      left: 1rem;
+      padding: 0.5rem 1rem;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      z-index: 10;
+    }
+
+    .badge-plant {
+      background: var(--primary);
+      color: white;
+    }
+
+    .badge-tree {
+      background: var(--dark);
+      color: white;
+    }
+
+    .badge-book {
+      background: #8d6e63;
+      color: white;
+    }
+
+    .badge-article {
+      background: #5c6bc0;
+      color: white;
+    }
+
+    .product-image {
+      height: 200px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .product-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: var(--transition);
+    }
+
+    .product-card:hover .product-image img {
+      transform: scale(1.1);
+    }
+
+    .product-info {
+      padding: 1.5rem;
+    }
+
+    .product-category {
+      color: var(--secondary);
+      font-size: 0.9rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+      display: block;
+    }
+
+    .product-title {
+      font-size: 1.2rem;
+      color: var(--dark);
+      margin-bottom: 0.5rem;
+      font-weight: 700;
+    }
+
+    .product-description {
+      color: #666;
+      font-size: 0.9rem;
+      margin-bottom: 1rem;
+      line-height: 1.5;
+    }
+
+    .product-details {
+      margin-bottom: 1rem;
+    }
+
+    .detail-item {
+      display: flex;
+      align-items: center;
+      margin-bottom: 0.5rem;
+      font-size: 0.9rem;
+    }
+
+    .detail-item i {
+      color: var(--primary);
+      margin-right: 0.5rem;
+      width: 20px;
+    }
+
+    .product-price {
+      font-size: 1.3rem;
+      color: var(--dark);
+      font-weight: 700;
+      margin-bottom: 1rem;
+    }
+
+    .product-actions {
+      display: flex;
+      gap: 0.5rem;
+    }
+
+    .btn-cart {
+      flex: 1;
+      padding: 0.8rem;
+      background: var(--primary);
+      color: white;
+      border: none;
+      border-radius: 25px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+    }
+
+    .btn-cart:hover {
+      background: var(--dark);
+      transform: translateY(-3px);
+    }
+
+    .btn-view {
+      padding: 0.8rem 1rem;
+      background: #f8fafc;
+      color: var(--text);
+      border: 2px solid #e5e7eb;
+      border-radius: 25px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .btn-view:hover {
+      border-color: var(--primary);
+      color: var(--primary);
+    }
+
+    /* Pagination */
+    .pagination {
+      display: flex;
+      justify-content: center;
+      gap: 0.5rem;
+      margin-top: 3rem;
+    }
+
+    .page-item {
+      display: inline-block;
+    }
+
+    .page-link {
+      padding: 0.8rem 1.2rem;
+      border: 2px solid #e5e7eb;
+      border-radius: 25px;
+      color: var(--text);
+      text-decoration: none;
+      font-weight: 600;
+      transition: var(--transition);
+    }
+
+    .page-link:hover,
+    .page-link.active {
+      background: var(--primary);
+      color: white;
+      border-color: var(--primary);
+    }
+
+    /* Product Modal */
+    .modal-content {
+      border-radius: 15px;
+      overflow: hidden;
+      border: none;
+    }
+
+    .modal-header {
+      background: var(--light);
+      border-bottom: 2px solid var(--secondary);
+      padding: 1.5rem;
+    }
+
+    .modal-title {
+      font-weight: 700;
+      color: var(--dark);
+    }
+
+    .modal-body {
+      padding: 2rem;
+    }
+
+    .modal-product-image {
+      width: 100%;
+      border-radius: 10px;
+      margin-bottom: 1.5rem;
+    }
+
+    .modal-product-info {
+      margin-bottom: 1.5rem;
+    }
+
+    .modal-product-price {
+      font-size: 1.5rem;
+      color: var(--dark);
+      font-weight: 700;
+      margin-bottom: 1rem;
+    }
+
+    .modal-product-description {
+      color: #666;
+      margin-bottom: 1.5rem;
+      line-height: 1.6;
+    }
+
+    .modal-details-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .detail-card {
+      background: #f8fafc;
+      padding: 1rem;
+      border-radius: 10px;
+      border-left: 4px solid var(--primary);
+    }
+
+    .detail-card h4 {
+      color: var(--dark);
+      margin-bottom: 0.5rem;
+      font-size: 1rem;
+    }
+
+    .detail-card p {
+      color: #666;
+      font-size: 0.9rem;
+    }
+
+    .modal-footer {
+      border-top: 2px solid #e5e7eb;
+      padding: 1.5rem;
+    }
+
+    .quantity-selector {
+      display: flex;
+      align-items: center;
+      margin-right: auto;
+    }
+
+    .quantity-btn {
+      width: 40px;
+      height: 40px;
+      background: #f8fafc;
+      border: 2px solid #e5e7eb;
+      font-size: 1.2rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+    }
+
+    .quantity-input {
+      width: 50px;
+      height: 40px;
+      border: 2px solid #e5e7eb;
+      border-left: none;
+      border-right: none;
+      text-align: center;
+      font-size: 1rem;
+    }
+
+    .btn-modal-cart {
+      padding: 0.8rem 1.5rem;
+      background: var(--primary);
+      color: white;
+      border: none;
+      border-radius: 25px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .btn-modal-cart:hover {
+      background: var(--dark);
+    }
+
+    /* Footer */
+    .footer-section {
+      padding: 4rem 0 2rem;
+      background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+      color: #f8fafc;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 2rem;
+      position: relative;
+      z-index: 1;
+      margin-bottom: 2rem;
+    }
+
+    .footer-about h3,
+    .footer-links h3,
+    .footer-contact h3 {
+      font-size: 1.5rem;
+      font-weight: 600;
+      margin-bottom: 1.5rem;
+      color: #10b981;
+    }
+
+    .footer-about p {
+      font-size: 1rem;
+      line-height: 1.6;
+      color: #cbd5e1;
+      margin-bottom: 1.5rem;
+      max-width: 300px;
+    }
+
+    .footer-social {
+      display: flex;
+      gap: 1rem;
+    }
+
+    .social-link {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 40px;
+      height: 40px;
+      background: rgba(255, 255, 255, 0.1);
+      color: #f8fafc;
+      border-radius: 50%;
+      text-decoration: none;
+      transition: all 0.4s ease;
+      font-size: 1.2rem;
+    }
+
+    .footer-links ul,
+    .footer-contact ul {
+      list-style: none;
+    }
+
+    .footer-links li,
+    .footer-contact li {
+      margin-bottom: 0.75rem;
+    }
+
+    .footer-links a,
+    .footer-contact a {
+      color: #cbd5e1;
+      text-decoration: none;
+      font-size: 1rem;
+      transition: all 0.3s ease;
+    }
+
+    .footer-contact i {
+      margin-right: 0.5rem;
+      color: #10b981;
+    }
+
+    .footer-bottom {
+      text-align: center;
+      padding-top: 2rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .footer-bottom p {
+      font-size: 0.9rem;
+      color: #94a3b8;
+    }
+
+    /* Mobile Swiper Section */
+    .mobile-swiper-section {
+      display: none;
+      margin-bottom: 3rem;
+    }
+
+    .swiper {
+      width: 100%;
+      padding: 20px 10px 40px;
+    }
+
+    .swiper-slide {
+      background: white;
+      border-radius: 15px;
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      height: auto;
+    }
+
+    .swiper-pagination-bullet-active {
+      background: var(--primary) !important;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 992px) {
+      .nav-links {
+        position: fixed;
+        top: 0;
+        right: -100%;
+        width: 70%;
+        height: 100vh;
+        background: rgba(27, 94, 32, 0.98);
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 2.5rem;
+        transition: var(--transition);
+        backdrop-filter: blur(10px);
+      }
+
+      .nav-links.active {
+        right: 0;
+      }
+
+      .nav-links a {
+        font-size: 1.2rem;
+        color: white;
+      }
+
+      .menu-toggle {
+        display: flex;
+      }
+
+      .shop-hero h1 {
+        font-size: 2.5rem;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .shop-hero {
+        padding: 6rem 1rem 3rem;
+      }
+
+      .shop-content {
+        padding: 3rem 1rem;
+      }
+
+      .section-title h2 {
+        font-size: 2rem;
+      }
+
+      .filter-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .products-grid {
+        display: none; /* Hide the grid on mobile */
+      }
+
+      .mobile-swiper-section {
+        display: block; /* Show swiper on mobile */
+      }
+
+      .modal-details-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .modal-footer {
+        flex-direction: column;
+        gap: 1rem;
+      }
+
+      .quantity-selector {
+        margin-right: 0;
+        justify-content: center;
+      }
+    }
+
+    @media (max-width: 576px) {
+      .shop-hero h1 {
+        font-size: 2rem;
+      }
+
+      .product-actions {
+        flex-direction: column;
+      }
+
+      .filter-buttons {
+        flex-direction: column;
+      }
+    }
+.top-home-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #2e7d32, #388e3c);
+    color: white;
+    padding: 12px 24px;
+    border-radius: 30px;
+    text-decoration: none;
+    font-weight: 600;
+    box-shadow: 0 4px 15px rgba(46, 125, 50, 0.3);
+    transition: all 0.3s ease;
+    margin: 20px auto;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    width: fit-content;
+}
+
+.top-home-button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(46, 125, 50, 0.4);
+    background: linear-gradient(135deg, #388e3c, #2e7d32);
+}
+
+.top-home-button i {
+    margin-right: 8px;
+}
+  </style>
+</head>
+<body>
+
+
+  <!-- Shop Hero Section -->
+
+  <!-- Shop Content -->
+  <section class="shop-content">
+    
+   <a href="Home.html" class="top-home-button">
+    <i class="fas fa-home"></i>Home page
+</a>
+    <div class="container">
+    
+      <div class="section-title">
+        <h2>Our Products</h2>
+        <p>Find everything you need to create your perfect green space</p>
+        
+      </div>
+
+      <!-- Mobile Swiper Section (Visible only on phones) -->
+      <div class="mobile-swiper-section">
+        <div class="swiper mobileProductsSwiper">
+          <div class="swiper-wrapper">
+            <!-- Product 1 -->
+            <div class="swiper-slide">
+              <div class="product-card">
+                <span class="product-badge badge-plant">Plant</span>
+                <div class="product-image">
+                  <img src="https://images.unsplash.com/photo-1416879595882-3373a0480b5b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80" alt="Monstera Deliciosa">
+                </div>
+                <div class="product-info">
+                  <span class="product-category">Indoor Plant</span>
+                  <h3 class="product-title">Monstera Deliciosa</h3>
+                  <p class="product-description">Beautiful Swiss cheese plant with unique split leaves, perfect for home decoration.</p>
+                  
+                  <div class="product-details">
+                    <div class="detail-item">
+                      <i class="fas fa-temperature-high"></i>
+                      <span>Temperature: 18-27°C</span>
+                    </div>
+                    <div class="detail-item">
+                      <i class="fas fa-tint"></i>
+                      <span>Humidity: Medium to High</span>
+                    </div>
+                    <div class="detail-item">
+                      <i class="fas fa-sun"></i>
+                      <span>Light: Indirect sunlight</span>
+                    </div>
+                  </div>
+                  
+                  <div class="product-price">$34.99</div>
+                  
+                  <div class="product-actions">
+                    <button class="btn-cart" data-bs-toggle="modal" data-bs-target="#productModal" data-product="Monstera Deliciosa">
+                      <i class="fas fa-shopping-cart"></i> Add to Cart
+                    </button>
+                    <button class="btn-view">View Details</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Product 2 -->
+            <div class="swiper-slide">
+              <div class="product-card">
+                <span class="product-badge badge-tree">Tree</span>
+                <div class="product-image">
+                  <img src="https://images.unsplash.com/photo-1509042239860-f550ce710b93?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80" alt="Japanese Maple">
+                </div>
+                <div class="product-info">
+                  <span class="product-category">Ornamental Tree</span>
+                  <h3 class="product-title">Japanese Maple</h3>
+                  <p class="product-description">Elegant decorative tree with stunning red foliage, perfect for gardens.</p>
+                  
+                  <div class="product-details">
+                    <div class="detail-item">
+                      <i class="fas fa-temperature-high"></i>
+                      <span>Temperature: -20 to 30°C</span>
+                    </div>
+                    <div class="detail-item">
+                      <i class="fas fa-tint"></i>
+                      <span>Humidity: Moderate</span>
+                    </div>
+                    <div class="detail-item">
+                      <i class="fas fa-sun"></i>
+                      <span>Light: Partial shade</span>
+                    </div>
+                  </div>
+                  
+                  <div class="product-price">$89.99</div>
+                  
+                  <div class="product-actions">
+                    <button class="btn-cart" data-bs-toggle="modal" data-bs-target="#productModal" data-product="Japanese Maple">
+                      <i class="fas fa-shopping-cart"></i> Add to Cart
+                    </button>
+                    <button class="btn-view">View Details</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Product 3 -->
+            <div class="swiper-slide">
+              <div class="product-card">
+                <span class="product-badge badge-book">Book</span>
+                <div class="product-image">
+                  <img src="https://images.unsplash.com/photo-1544947950-fa07a98d237f?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80" alt="Plant Care Guide">
+                </div>
+                <div class="product-info">
+                  <span class="product-category">Educational</span>
+                  <h3 class="product-title">Complete Plant Care Guide</h3>
+                  <p class="product-description">Comprehensive guide to keeping your plants healthy and thriving.</p>
+                  
+                  <div class="product-details">
+                    <div class="detail-item">
+                      <i class="fas fa-book"></i>
+                      <span>Pages: 256</span>
+                    </div>
+                    <div class="detail-item">
+                      <i class="fas fa-user"></i>
+                      <span>Author: Dr. Botanist</span>
+                    </div>
+                    <div class="detail-item">
+                      <i class="fas fa-star"></i>
+                      <span>Rating: 4.8/5</span>
+                    </div>
+                  </div>
+                  
+                  <div class="product-price">$24.99</div>
+                  
+                  <div class="product-actions">
+                    <button class="btn-cart" data-bs-toggle="modal" data-bs-target="#productModal" data-product="Complete Plant Care Guide">
+                      <i class="fas fa-shopping-cart"></i> Add to Cart
+                    </button>
+                    <button class="btn-view">View Details</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Product 4 -->
+            <div class="swiper-slide">
+              <div class="product-card">
+                <span class="product-badge badge-article">Article</span>
+                <div class="product-image">
+                  <img src="https://images.unsplash.com/photo-1591955506264-3f5a6834570a?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80" alt="Organic Fertilizers">
+                </div>
+                <div class="product-info">
+                  <span class="product-category">Educational</span>
+                  <h3 class="product-title">Organic Fertilizers Guide</h3>
+                  <p class="product-description">Learn how to make and use organic fertilizers for healthier plants.</p>
+                  
+                  <div class="product-details">
+                    <div class="detail-item">
+                      <i class="fas fa-file-alt"></i>
+                      <span>Format: Digital PDF</span>
+                    </div>
+                    <div class="detail-item">
+                      <i class="fas fa-clock"></i>
+                      <span>Read time: 45 min</span>
+                    </div>
+                    <div class="detail-item">
+                      <i class="fas fa-download"></i>
+                      <span>Instant download</span>
+                    </div>
+                  </div>
+                  
+                  <div class="product-price">$9.99</div>
+                  
+                  <div class="product-actions">
+                    <button class="btn-cart" data-bs-toggle="modal" data-bs-target="#productModal" data-product="Organic Fertilizers Guide">
+                      <i class="fas fa-shopping-cart"></i> Add to Cart
+                    </button>
+                    <button class="btn-view">View Details</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Product 5 -->
+            <div class="swiper-slide">
+              <div class="product-card">
+                <span class="product-badge badge-plant">Plant</span>
+                <div class="product-image">
+                  <img src="https://images.unsplash.com/photo-1501004318641-b39e6451bec6?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80" alt="Aloe Vera">
+                </div>
+                <div class="product-info">
+                  <span class="product-category">Indoor Plant</span>
+                  <h3 class="product-title">Aloe Vera</h3>
+                  <p class="product-description">A popular succulent known for its medicinal properties and easy care.</p>
+                  
+                  <div class="product-details">
+                    <div class="detail-item">
+                      <i class="fas fa-temperature-high"></i>
+                      <span>Temperature: 18-30°C</span>
+                    </div>
+                    <div class="detail-item">
+                      <i class="fas fa-tint"></i>
+                      <span>Humidity: Low</span>
+                    </div>
+                    <div class="detail-item">
+                      <i class="fas fa-sun"></i>
+                      <span>Light: Bright indirect</span>
+                    </div>
+                  </div>
+                  
+                  <div class="product-price">$18.99</div>
+                  
+                  <div class="product-actions">
+                    <button class="btn-cart" data-bs-toggle="modal" data-bs-target="#productModal" data-product="Aloe Vera">
+                      <i class="fas fa-shopping-cart"></i> Add to Cart
+                    </button>
+                    <button class="btn-view">View Details</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Product 6 -->
+            <div class="swiper-slide">
+              <div class="product-card">
+                <span class="product-badge badge-tree">Tree</span>
+                <div class="product-image">
+                  <img src="https://images.unsplash.com/photo-1498654896293-37aacf113fd9?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80" alt="Olive Tree">
+                </div>
+                <div class="product-info">
+                  <span class="product-category">Fruit Tree</span>
+                  <h3 class="product-title">Olive Tree</h3>
+                  <p class="product-description">A classic Mediterranean tree that produces olives and adds elegance to gardens.</p>
+                  
+                  <div class="product-details">
+                    <div class="detail-item">
+                      <i class="fas fa-temperature-high"></i>
+                      <span>Temperature: 10-32°C</span>
+                    </div>
+                    <div class="detail-item">
+                      <i class="fas fa-tint"></i>
+                      <span>Humidity: Moderate</span>
+                    </div>
+                    <div class="detail-item">
+                      <i class="fas fa-sun"></i>
+                      <span>Light: Full sun</span>
+                    </div>
+                  </div>
+                  
+                  <div class="product-price">$75.99</div>
+                  
+                  <div class="product-actions">
+                    <button class="btn-cart" data-bs-toggle="modal" data-bs-target="#productModal" data-product="Olive Tree">
+                      <i class="fas fa-shopping-cart"></i> Add to Cart
+                    </button>
+                    <button class="btn-view">View Details</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Add pagination -->
+          <div class="swiper-pagination"></div>
+        </div>
+      </div>
+
+      <!-- Products Grid (Visible on desktop/tablet) -->
+      <div class="products-grid">
+        <!-- Product 1 -->
+        <div class="product-card">
+          <span class="product-badge badge-plant">Plant</span>
+          <div class="product-image">
+            <img src="https://images.unsplash.com/photo-1416879595882-3373a0480b5b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80" alt="Monstera Deliciosa">
+          </div>
+          <div class="product-info">
+            <span class="product-category">Indoor Plant</span>
+            <h3 class="product-title">Monstera Deliciosa</h3>
+            <p class="product-description">Beautiful Swiss cheese plant with unique split leaves, perfect for home decoration.</p>
+            
+            <div class="product-details">
+              <div class="detail-item">
+                <i class="fas fa-temperature-high"></i>
+                <span>Temperature: 18-27°C</span>
+              </div>
+              <div class="detail-item">
+                <i class="fas fa-tint"></i>
+                <span>Humidity: Medium to High</span>
+              </div>
+              <div class="detail-item">
+                <i class="fas fa-sun"></i>
+                <span>Light: Indirect sunlight</span>
+              </div>
+            </div>
+            
+            <div class="product-price">$34.99</div>
+            
+            <div class="product-actions">
+              <button class="btn-cart" data-bs-toggle="modal" data-bs-target="#productModal" data-product="Monstera Deliciosa">
+                <i class="fas fa-shopping-cart"></i> Add to Cart
+              </button>
+              <button class="btn-view">View Details</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Product 2 -->
+        <div class="product-card">
+          <span class="product-badge badge-tree">Tree</span>
+          <div class="product-image">
+            <img src="https://images.unsplash.com/photo-1509042239860-f550ce710b93?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80" alt="Japanese Maple">
+          </div>
+          <div class="product-info">
+            <span class="product-category">Ornamental Tree</span>
+            <h3 class="product-title">Japanese Maple</h3>
+            <p class="product-description">Elegant decorative tree with stunning red foliage, perfect for gardens.</p>
+            
+            <div class="product-details">
+              <div class="detail-item">
+                <i class="fas fa-temperature-high"></i>
+                <span>Temperature: -20 to 30°C</span>
+              </div>
+              <div class="detail-item">
+                <i class="fas fa-tint"></i>
+                <span>Humidity: Moderate</span>
+              </div>
+              <div class="detail-item">
+                <i class="fas fa-sun"></i>
+                <span>Light: Partial shade</span>
+              </div>
+            </div>
+            
+            <div class="product-price">$89.99</div>
+            
+            <div class="product-actions">
+              <button class="btn-cart" data-bs-toggle="modal" data-bs-target="#productModal" data-product="Japanese Maple">
+                <i class="fas fa-shopping-cart"></i> Add to Cart
+              </button>
+              <button class="btn-view">View Details</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Product 3 -->
+        <div class="product-card">
+          <span class="product-badge badge-book">Book</span>
+          <div class="product-image">
+            <img src="https://images.unsplash.com/photo-1544947950-fa07a98d237f?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80" alt="Plant Care Guide">
+          </div>
+          <div class="product-info">
+            <span class="product-category">Educational</span>
+            <h3 class="product-title">Complete Plant Care Guide</h3>
+            <p class="product-description">Comprehensive guide to keeping your plants healthy and thriving.</p>
+            
+            <div class="product-details">
+              <div class="detail-item">
+                <i class="fas fa-book"></i>
+                <span>Pages: 256</span>
+              </div>
+              <div class="detail-item">
+                <i class="fas fa-user"></i>
+                <span>Author: Dr. Botanist</span>
+              </div>
+              <div class="detail-item">
+                <i class="fas fa-star"></i>
+                <span>Rating: 4.8/5</span>
+              </div>
+            </div>
+            
+            <div class="product-price">$24.99</div>
+            
+            <div class="product-actions">
+              <button class="btn-cart" data-bs-toggle="modal" data-bs-target="#productModal" data-product="Complete Plant Care Guide">
+                <i class="fas fa-shopping-cart"></i> Add to Cart
+              </button>
+              <button class="btn-view">View Details</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Product 4 -->
+        <div class="product-card">
+          <span class="product-badge badge-article">Article</span>
+          <div class="product-image">
+            <img src="https://images.unsplash.com/photo-1591955506264-3f5a6834570a?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80" alt="Organic Fertilizers">
+          </div>
+          <div class="product-info">
+            <span class="product-category">Educational</span>
+            <h3 class="product-title">Organic Fertilizers Guide</h3>
+            <p class="product-description">Learn how to make and use organic fertilizers for healthier plants.</p>
+            
+            <div class="product-details">
+              <div class="detail-item">
+                <i class="fas fa-file-alt"></i>
+                <span>Format: Digital PDF</span>
+              </div>
+              <div class="detail-item">
+                <i class="fas fa-clock"></i>
+                <span>Read time: 45 min</span>
+              </div>
+              <div class="detail-item">
+                <i class="fas fa-download"></i>
+                <span>Instant download</span>
+              </div>
+            </div>
+            
+            <div class="product-price">$9.99</div>
+            
+            <div class="product-actions">
+              <button class="btn-cart" data-bs-toggle="modal" data-bs-target="#productModal" data-product="Organic Fertilizers Guide">
+                <i class="fas fa-shopping-cart"></i> Add to Cart
+              </button>
+              <button class="btn-view">View Details</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Product 5 -->
+        <div class="product-card">
+          <span class="product-badge badge-plant">Plant</span>
+          <div class="product-image">
+            <img src="https://images.unsplash.com/photo-1501004318641-b39e6451bec6?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80" alt="Aloe Vera">
+          </div>
+          <div class="product-info">
+            <span class="product-category">Indoor Plant</span>
+            <h3 class="product-title">Aloe Vera</h3>
+            <p class="product-description">A popular succulent known for its medicinal properties and easy care.</p>
+            
+            <div class="product-details">
+              <div class="detail-item">
+                <i class="fas fa-temperature-high"></i>
+                <span>Temperature: 18-30°C</span>
+              </div>
+              <div class="detail-item">
+                <i class="fas fa-tint"></i>
+                <span>Humidity: Low</span>
+              </div>
+              <div class="detail-item">
+                <i class="fas fa-sun"></i>
+                <span>Light: Bright indirect</span>
+              </div>
+            </div>
+            
+            <div class="product-price">$18.99</div>
+            
+            <div class="product-actions">
+              <button class="btn-cart" data-bs-toggle="modal" data-bs-target="#productModal" data-product="Aloe Vera">
+                <i class="fas fa-shopping-cart"></i> Add to Cart
+              </button>
+              <button class="btn-view">View Details</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Product 6 -->
+        <div class="product-card">
+          <span class="product-badge badge-tree">Tree</span>
+          <div class="product-image">
+            <img src="https://images.unsplash.com/photo-1498654896293-37aacf113fd9?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80" alt="Olive Tree">
+          </div>
+          <div class="product-info">
+            <span class="product-category">Fruit Tree</span>
+            <h3 class="product-title">Olive Tree</h3>
+            <p class="product-description">A classic Mediterranean tree that produces olives and adds elegance to gardens.</p>
+            
+            <div class="product-details">
+              <div class="detail-item">
+                <i class="fas fa-temperature-high"></i>
+                <span>Temperature: 10-32°C</span>
+              </div>
+              <div class="detail-item">
+                <i class="fas fa-tint"></i>
+                <span>Humidity: Moderate</span>
+              </div>
+              <div class="detail-item">
+                <i class="fas fa-sun"></i>
+                <span>Light: Full sun</span>
+              </div>
+            </div>
+            
+            <div class="product-price">$75.99</div>
+            
+            <div class="product-actions">
+              <button class="btn-cart" data-bs-toggle="modal" data-bs-target="#productModal" data-product="Olive Tree">
+                <i class="fas fa-shopping-cart"></i> Add to Cart
+              </button>
+              <button class="btn-view">View Details</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Pagination -->
+      <div class="pagination">
+        <div class="page-item">
+          <a href="#" class="page-link">1</a>
+        </div>
+        <div class="page-item">
+          <a href="#" class="page-link">2</a>
+        </div>
+        <div class="page-item">
+          <a href="#" class="page-link">3</a>
+        </div>
+        <div class="page-item">
+          <a href="#" class="page-link">Next</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Product Modal -->
+  <div class="modal fade" id="productModal" tabindex="-1" aria-labelledby="productModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="productModalLabel">Product Details</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-md-6">
+              <img src="https://images.unsplash.com/photo-1416879595882-3373a0480b5b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80" alt="Product Image" class="modal-product-image">
+            </div>
+            <div class="col-md-6">
+              <div class="modal-product-info">
+                <h3 id="modalProductTitle">Monstera Deliciosa</h3>
+                <div class="modal-product-price">$34.99</div>
+                <p class="modal-product-description">Beautiful Swiss cheese plant with unique split leaves, perfect for home decoration. This plant is known for its air-purifying qualities and easy maintenance.</p>
+                
+                
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <div class="quantity-selector">
+            <button class="quantity-btn">-</button>
+            <input type="text" class="quantity-input" value="1">
+            <button class="quantity-btn">+</button>
+          </div>
+          <button class="btn-modal-cart">
+            <i class="fas fa-shopping-cart"></i> Add to Cart
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+ 
+
+  <!-- Add Swiper JS -->
+  <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+  <script>
+    // Initialize Swiper
+    var swiper = new Swiper(".mobileProductsSwiper", {
+      slidesPerView: 1,
+      spaceBetween: 20,
+      pagination: {
+        el: ".swiper-pagination",
+        clickable: true,
+      },
+      breakpoints: {
+        640: {
+          slidesPerView: 2,
+          spaceBetween: 20,
+        },
+        768: {
+          slidesPerView: 3,
+          spaceBetween: 30,
+        },
+        1024: {
+          slidesPerView: 4,
+          spaceBetween: 40,
+        },
+      },
+    });
+
+    // Mobile menu toggle
+    const menuToggle = document.querySelector('.menu-toggle');
+    const navLinks = document.querySelector('.nav-links');
+    
+    menuToggle.addEventListener('click', () => {
+      navLinks.classList.toggle('active');
+      menuToggle.classList.toggle('active');
+    });
+
+    // Update modal content based on product
+    const productModal = document.getElementById('productModal');
+    productModal.addEventListener('show.bs.modal', function (event) {
+      const button = event.relatedTarget;
+      const product = button.getAttribute('data-product');
+      const modalTitle = productModal.querySelector('.modal-title');
+      
+      modalTitle.textContent = product;
+    });
+
+    // Quantity selector
+    const quantityBtns = document.querySelectorAll('.quantity-btn');
+    const quantityInput = document.querySelector('.quantity-input');
+    
+    quantityBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        let currentValue = parseInt(quantityInput.value);
+        
+        if (btn.textContent === '+') {
+          quantityInput.value = currentValue + 1;
+        } else if (btn.textContent === '-' && currentValue > 1) {
+          quantityInput.value = currentValue - 1;
+        }
+      });
+    });
+  </script>
+</body>
+</html>
